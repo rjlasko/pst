@@ -4,15 +4,18 @@
 # necessary to support running PST scripts.
 
 
-function pst_echo_bash_source() {
+alias rebash='source $HOME/.bash_profile'
+alias pstdebug='export PST_DEBUG=1'
+
+function pst_debug_echo() {
 	if [ -n "$PST_DEBUG" ]; then
 		echo "$1"
 	fi
 }
-export -f pst_echo_bash_source
+export -f pst_debug_echo
 # correct usage of the pst_echo_bash_source script is the following
 # which uses the BASH variable BASH_SOURCE to identify which file is currently executing
-pst_echo_bash_source "$BASH_SOURCE"
+pst_debug_echo "$BASH_SOURCE"
 
 # if the PST_ROOT is not set, then lets set it now
 if [ -z "$PST_ROOT" ]; then
@@ -44,4 +47,3 @@ if [ -z "$PST_OS" ]; then
 	# provide this to be used elsewhere in my scripts
 	export PST_OS
 fi
-
