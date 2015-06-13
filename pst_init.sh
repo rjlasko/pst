@@ -4,7 +4,6 @@
 # necessary to support running PST scripts.
 
 
-alias rebash='source $HOME/.bash_profile'
 alias pstdebug='export PST_DEBUG=1'
 
 function pst_debug_echo() {

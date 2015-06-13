@@ -1,6 +1,5 @@
 #!/bin/sh
 
-
 pst_debug_echo "$BASH_SOURCE"
 
 # run a test for the command in a subshell (using parentheses)
@@ -10,8 +9,4 @@ if !(`command -v unison > /dev/null`) ; then
 	return
 fi
 
-
-function set_unison_hostname() {
-	export UNISONLOCALHOSTNAME="$1"
-}
-export -f set_unison_hostname
+export UNISONLOCALHOSTNAME="${1:?"unison_init.sh requires an input hostname parameter"}"
