@@ -15,7 +15,8 @@ case "$PST_OS" in
 	"darwin")
 		export CLICOLOR=1
 		# no need to modify ls or grep, because they already pick this change up in OSX
-		# also, dir & vdir do not exist
+		# technically, ls doesn't need anything in OSX, when executed as 'ln -G'
+		# also, dir & vdir do not exist in OSX
 		;;
 	*) # this will probably fail in BSD...
 		if [ -x /usr/bin/dircolors ]; then
@@ -27,8 +28,6 @@ case "$PST_OS" in
 		alias ls='ls --color=auto'
 		alias dir='dir --color=auto'
 		alias vdir='vdir --color=auto'
-		
-		# need to resolve a conflict with grep that is based on CLICOLORS or dircolors
 		alias grep='grep --color=auto'
 		alias fgrep='fgrep --color=auto'
 		alias egrep='egrep --color=auto'
