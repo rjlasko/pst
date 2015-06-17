@@ -31,11 +31,11 @@ getUncommon() {
 }
 
 getCommon() {
+	export s_datetime="\D{%F %T}"
 	export s_user="\u"				# username of the current user
 	export s_path="\w"				# current working directory, with $HOME abbreviated with a tilde
-	export s_newline="\n"
 	export s_host="\h"				# hostname up to the first part
-	export s_datetime="\D{%F %T}"
+	export s_newline="\n"
 	export s_uprompt="\$"			# if the effective UID is 0, '#', otherwise, '$'
 }
 

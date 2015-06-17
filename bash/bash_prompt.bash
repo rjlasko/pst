@@ -62,6 +62,8 @@ function setPS1() {
 	fi
 	
 	# the default string to build based on the input args to this script
+	# TODO: try to add handling for cases where some STDOUT does not end in a newline character
+	# see: http://unix.stackexchange.com/questions/60459/how-to-make-bash-put-prompt-on-a-new-line-after-cat-command
 	local PST_PS1=${PST_PS_DT}${PST_PS_USER}${PST_PS_SEP}${PST_PS_CWT}${PST_PS_GIT}${PST_PS_PROMPT}
 	
 	# add the chroot if it exists
