@@ -25,9 +25,10 @@ esac
 function setPS1() {
 	
 	source $PST_ROOT/term/term_color.sh
+	source $PST_ROOT/bash/ps1_symbols.sh
 	
 	if [ -z "$1" ]; then
-		local PST_HOSTNAME="\h"
+		local PST_HOSTNAME=${s_host}
 	else
 		local PST_HOSTNAME="$1"
 	fi
@@ -44,37 +45,45 @@ function setPS1() {
 	esac
 	
 	
-	local PST_PS_USER=${c_user}"\u@"${PST_HOSTNAME}
-	local PST_PS_CWT=${c_cwd}"\w"
+	local PST_PS_USER=${c_user}${s_user}"@"${PST_HOSTNAME}
+	local PST_PS_CWT=${c_cwd}${s_path}
 	local PST_PS_SEP=${c_sep}":"
-	local PST_PS_PROMPT=${c_prompt}"\n$ "${c_reset}
+	local PST_PS_PROMPT=${c_prompt}${s_newline}"$ "${c_reset}
 	
+	# add the git prompt if the associated input argument is defined
 	if [ -n "$2" ] ; then
 		source $PST_ROOT/dev/git/git-prompt-setup.sh
 		local PST_PS_GIT=${c_git}${GIT_PS1}
 	fi
 	
+	# add the datetime if the associated input argument is defined
 	if [ -n "$3" ] ; then
-		local PST_PS_DT=${c_datetime}"\D{%F %T}"${PST_PS_SEP}
+		local PST_PS_DT=${c_datetime}${s_datetime}${PST_PS_SEP}
 	fi
 	
-	#PS1=${PST_PS_USER}${PST_PS_SEP}${PST_PS_CWT}${PST_PS_GIT}${PST_PS_PROMPT}
-	PS1=${PST_PS_DT}${PST_PS_USER}${PST_PS_SEP}${PST_PS_CWT}${PST_PS_GIT}${PST_PS_PROMPT}
-	if [ -n $PST_PS_CHROOT ]
-	then
-		PS1=${PST_PS_CHROOT}${PS1}
+	# the default string to build based on the input args to this script
+	local PST_PS1=${PST_PS_DT}${PST_PS_USER}${PST_PS_SEP}${PST_PS_CWT}${PST_PS_GIT}${PST_PS_PROMPT}
+	
+	# add the chroot if it exists
+	if [ -n $PST_PS_CHROOT ] ; then
+		PST_PS1=${PST_PS_CHROOT}${PST_PS1}
 	fi
 	
 	# If this is an xterm set the xterm title to user@host:dir
 	case "$TERM" in
 		xterm*|rxvt*)
-			PS1="\[\e]0;"${PST_PS_CHROOT}"\u@"${PST_HOSTNAME}":\w\a\]$PS1"
+			# note that we are surrounding the xterm title in '\[' and '\]', as the entire
+			# thing is not printed out to the terminal, but rather the terminal container
+			local PST_TERM_PS1="\[\e]0;"${PST_PS_CHROOT}${s_user}"@"${PST_HOSTNAME}":"${s_path}"\a\]"
 			;;
 		*)
 			;;
 	esac
 	
-	unset c_datetime c_user c_cwd c_white c_git c_sep c_prompt c_reset
+	PS1=$PST_TERM_PS1$PST_PS1
+	
+	unset c_datetime c_user c_cwd c_git c_sep c_prompt c_reset
+	unset s_datetime s_user s_path s_host s_newline s_uprompt
 }
 export -f setPS1
 
