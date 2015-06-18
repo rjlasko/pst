@@ -26,6 +26,7 @@ getEsc256() {
 	export c_cwd="\[\e[38;5;172m\]"			# Orange
 }
 
+# TODO: check on begin/end non-printing characters
 getTput8() {
 	export c_datetime="$(tput setaf 1)"	# Red
 	export c_user="$(tput setaf 10)"	# Intense Green
