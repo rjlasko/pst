@@ -51,13 +51,13 @@ function setPS1() {
 	local PST_PS_PROMPT=${c_prompt}${s_newline}"$ "${c_reset}
 	
 	# add the git prompt if the associated input argument is defined
-	if [ -n "$2" ] ; then
+	if [ $2 -eq 1 ] ; then
 		source $PST_ROOT/dev/git/git-prompt-setup.sh
 		local PST_PS_GIT=${c_git}${GIT_PS1}
 	fi
 	
 	# add the datetime if the associated input argument is defined
-	if [ -n "$3" ] ; then
+	if [ $3 -eq 1 ] ; then
 		local PST_PS_DT=${c_datetime}${s_datetime}${PST_PS_SEP}
 	fi
 	

@@ -6,11 +6,12 @@ pst_debug_echo "$BASH_SOURCE"
 # unique to OS
 case "$PST_OS" in
 	"darwin")
-		if (`command -v defaults > /dev/null`) ; then
+		cmd_ref=`command -v defaults > /dev/null`
+		if [ $? -eq 0 ] ; then
 			alias hide='defaults write com.apple.finder AppleShowAllFiles FALSE && killall Finder'
 			alias unhide='defaults write com.apple.finder AppleShowAllFiles TRUE && killall Finder'
 		fi
-		
+		unset cmd_ref
 		# I could add to the existing OS the components called out below:
 			# lesspipe
 			# bash_completion

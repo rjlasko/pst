@@ -42,9 +42,14 @@ getTput256() {
 	export c_user="$(tput setaf 46)"	# High Intensity Green
 }
 
+hasTput() {
+	cmd_ref=`command -v tput > /dev/null`
+	return $?
+}
+
 demo() {
 	echo ${c_datetime} DATETIME ${c_reset}
-	echo "${c_user}puck@sn0wGun${c_sep}:${c_cwd}/home/rlasko/scratch${c_git} (feature/qcFlagsLocked $=)${c_prompt}\n$\] ${c_reset}"
+	echo "${c_user}user@hostname${c_sep}:${c_cwd}/home/user${c_git} (feature/branch $=)${c_prompt}\n$\] ${c_reset}"
 }
 
 fullDemo() {
@@ -73,7 +78,8 @@ preferEsc() {
 			;;
 		*)
 			# if there is an unknown terminal, try to save with tput first
-			if (`command -v tput > /dev/null`) ; then
+			hasTput
+			if [ $? -eq 0 ] ; then
 				getTput8
 				if [[ $(tput colors) -ge 256 ]] 2>/dev/null ; then
 					getTput256
@@ -87,14 +93,13 @@ preferEsc() {
 
 preferTput() {
 	# if there is an unknown terminal, try to save with tput first
-	if (`command -v tput > /dev/null`) ; then
-		echo "TPUT"
+	hasTput
+	if [ $? -eq 0 ] ; then
 		getTput8
 		if [[ $(tput colors) -ge 256 ]] 2>/dev/null ; then
 			getTput256
 		fi
 	else
-		echo "ESC"
 		getEsc8
 		if [ "$TERM" == "xterm-256color" ] ; then
 				getEsc256
@@ -103,3 +108,4 @@ preferTput() {
 }
 
 preferEsc
+
