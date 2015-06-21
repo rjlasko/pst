@@ -86,6 +86,7 @@ function setPS1() {
 	
 	unset c_datetime c_user c_cwd c_git c_sep c_prompt c_reset
 	unset s_datetime s_user s_path s_host s_newline s_uprompt
+	unset setPS1
 }
 export -f setPS1
 

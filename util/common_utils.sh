@@ -25,7 +25,6 @@ cmd1_exit=$?
 cmd_ref=`command -v openssl > /dev/null`
 cmd2_exit=$?
 if [ $cmd1_exit -ne 0 ] && [ $cmd2_exit -eq 0 ] ; then
-	echo "YAY"
 	alias md5sum='openssl md5'
 fi
 
