@@ -11,23 +11,29 @@ if [ -n "$(command -v column 2>/dev/null)" ] ; then
 fi
 
 
+if [ -z "$(command -v md5sum 2>/dev/null)" ] && [ -n "$(command -v openssl 2>/dev/null)" ] ; then
+	alias md5sum='openssl md5'
+fi
+
+
 if [ -n "$(command -v lsof 2>/dev/null)" ] ; then
-		function netspy () {
+	function netspy () {
 		lsof -i -P +c 0 +M | grep -i "$1"
 	}
 fi
 
 
-if [ -n "$(command -v nmap 2>/dev/null)" ] ; then
-	function lanmacs () {
-		sudo nmap -sP 
-	}
+if [ -n "$(command -v ifconfig 2>/dev/null)" ] ; then
+	alias myip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
+
+	if [ -n "$(command -v nmap 2>/dev/null)" ] ; then
+		function lanmacs () {
+			local a=`cut -f1-3 -d"." <(myip)`
+			sudo nmap -sP $a".*"
+		}
+	fi
 fi
 
-
-if [ -z "$(command -v md5sum 2>/dev/null)" ] && [ -n "$(command -v openssl 2>/dev/null)" ] ; then
-	alias md5sum='openssl md5'
-fi
 
 # !!!!!!!!!!!!!!!!!!!! File/Directory Cleanup
 # text editor artifacts

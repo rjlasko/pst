@@ -4,7 +4,7 @@
 # necessary to support running PST scripts.
 
 
-alias pstdebug='export PST_DEBUG=1'
+alias pst_debug='export PST_DEBUG=1'
 
 function pst_debug_echo() {
 	if [ -n "$PST_DEBUG" ]; then
