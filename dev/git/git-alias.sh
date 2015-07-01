@@ -3,14 +3,10 @@
 
 pst_debug_echo "$BASH_SOURCE"
 
-# run a test for the command in a subshell (using parentheses)
-# and just return if it does not exist
-cmd_ref=`command -v git > /dev/null`
-if [ $? -ne 0  ] ; then
+if [ -z "$(command -v git 2>/dev/null)" ] ; then
 	echo "It appears that the Git executable 'git' is not in the path!"
 	return
 fi
-unset cmd_ref
 
 
 alias gitl="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"

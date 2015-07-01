@@ -43,8 +43,11 @@ getTput256() {
 }
 
 hasTput() {
-	cmd_ref=`command -v tput > /dev/null`
-	return $?
+	if [ -n "$(command -v tput 2>/dev/null)" ] ; then
+		return 0
+	else
+		return 1
+	fi
 }
 
 demo() {
@@ -78,8 +81,7 @@ preferEsc() {
 			;;
 		*)
 			# if there is an unknown terminal, try to save with tput first
-			hasTput
-			if [ $? -eq 0 ] ; then
+			if hasTput ; then
 				getTput8
 				if [[ $(tput colors) -ge 256 ]] 2>/dev/null ; then
 					getTput256

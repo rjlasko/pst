@@ -3,8 +3,7 @@
 
 pst_debug_echo "$BASH_SOURCE"
 
-cmd_ref=`command -v column > /dev/null`
-if [ $? -eq 0 ] ; then
+if [ -n "$(command -v column 2>/dev/null)" ] ; then
 	alias tcat='column -t'
 	function tless () {
 		column -t "$@" | less -S ;
@@ -12,23 +11,23 @@ if [ $? -eq 0 ] ; then
 fi
 
 
-cmd_ref=`command -v lsof > /dev/null`
-if [ $? -eq 0 ] ; then
-	function netspy () {
+if [ -n "$(command -v lsof 2>/dev/null)" ] ; then
+		function netspy () {
 		lsof -i -P +c 0 +M | grep -i "$1"
 	}
-fi	
-
-
-cmd_ref=`command -v md5sum > /dev/null`
-cmd1_exit=$?
-cmd_ref=`command -v openssl > /dev/null`
-cmd2_exit=$?
-if [ $cmd1_exit -ne 0 ] && [ $cmd2_exit -eq 0 ] ; then
-	alias md5sum='openssl md5'
 fi
 
-unset cmd_ref cmd1_exit cmd2_exit
+
+if [ -n "$(command -v nmap 2>/dev/null)" ] ; then
+	function lanmacs () {
+		sudo nmap -sP 
+	}
+fi
+
+
+if [ -z "$(command -v md5sum 2>/dev/null)" ] && [ -n "$(command -v openssl 2>/dev/null)" ] ; then
+	alias md5sum='openssl md5'
+fi
 
 # !!!!!!!!!!!!!!!!!!!! File/Directory Cleanup
 # text editor artifacts
