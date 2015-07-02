@@ -9,3 +9,5 @@ if [ -z "$(command -v python 2>/dev/null)" ] ; then
 fi
 
 alias pst_python="PYTHONPATH=$PST_ROOT/python:$PYTHONPATH python"
+alias pst_python_sudo="sudo PYTHONPATH=$PST_ROOT/python:$PYTHONPATH python"
+

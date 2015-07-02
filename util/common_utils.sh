@@ -28,8 +28,15 @@ if [ -n "$(command -v ifconfig 2>/dev/null)" ] ; then
 
 	if [ -n "$(command -v nmap 2>/dev/null)" ] ; then
 		function lanmacs () {
-			local a=`cut -f1-3 -d"." <(myip)`
-			sudo nmap -sP $a".*"
+			local myips=`myip`
+			for ip in $myips ; do
+				local a=`cut -f1-3 -d"." <(echo $ip)`
+				local seg=$a".*"
+				echo "-------------------------------------------------------------------------"
+				echo "Finding Hosts in LAN segment: "$seg
+				echo "-------------------------------------------------------------------------"
+				sudo nmap -sP $seg
+			done
 		}
 	fi
 fi
