@@ -2,19 +2,69 @@
 A module to access data gathered by the NMap utility
 """
 
-import os
-import subprocess
-import socket
+# Python Standard Libraries
+import os, subprocess, socket
 from collections import defaultdict
 
-from Hacks import env
+# PST Libraries
+from ClassUtils import JsonAble
+import env
+
+
+def testList(fast=True):
+	"""
+	A method that does something
+	"""
+	x = testHost("goofy")
+	y = testHost("doofy")
+	z = [x, y]
+	printHostList(z)
+
+	t = [a.toDict() for a in z]
+
+	import json
+
+	tJ = json.JSONEncoder(indent=4).encode(t)
+	print tJ
+	tD = json.JSONDecoder().decode(tJ)
+	print tD
+	t_ = [_Host().fromDict(a) for a in tD]
+	printHostList(t_)
+
+
+def testHost(firstName):
+	x = _Host()
+	x.names.append(firstName)
+	x.names.append("1")
+	x.names.append("2")
+	x.addresses['mac'].append('ads')
+	x.addresses['mac'].append('asad')
+	x.addresses['ipv4'].append('1222222')
+	x.addresses['ipv4'].append('1222242')
+	x.addresses['ipv4'].append('1222224')
+	return x
 
 
 def printScan(fast=True):
 	"""
 	A method that does something
 	"""
-	_NmapHost(['names'], {'type':['address']}).printHostTable(_parseNmapXML(_scan()))
+	printHostList(_parseNmapXML(_scan()))
+
+
+def printHostList(hostlist):
+		header = _Host(['names'], {'type':['address']})
+		n = max(header.maxNameWidth(), max([nh.maxNameWidth() for nh in hostlist]))
+		t = max(header.maxTypeWidth(), max([nh.maxTypeWidth() for nh in hostlist]))
+		a = max(header.maxAttrWidth(), max([nh.maxAttrWidth() for nh in hostlist]))
+
+		hostlist.sort(key=lambda x: x.names[0].lower(), reverse=False)
+
+		hostTable = header.getStr(n, t, a)
+		hostTable += _Host(['=' * n], {'=' * t:['=' * a]}).getStr(n, t, a)
+		for nh in hostlist:
+			hostTable += nh.getStr(n, t, a)
+		print hostTable
 
 
 def save(filepath, update=False):
@@ -23,7 +73,6 @@ def save(filepath, update=False):
 	If the update flag is given, it will attempt to update the existing document with anything
 	found that is new or different. 
 	"""
-	
 
 
 def update():
@@ -33,36 +82,21 @@ def update():
 	pass
 
 
-def test():
-	x = _NmapHost()
-	x.names.append("goofy")
-	x.names.append("donald")
-	x.names.append("waldo")
-	x.addresses['mac'].append('ads')
-	x.addresses['mac'].append('asad')
-	x.addresses['ipv4'].append('1222222')
-	x.addresses['ipv4'].append('1222242')
-	x.addresses['ipv4'].append('1222224')
-	return x
-
-
 def _parseNmapXML(nmap_xml):
 	"""
-	Rename to something more befitting the final output type
+	Generates an _HostList from a NMap XML document
 	"""
 	from xml.etree import ElementTree
-	
-	nmapHostList = []
+
+	nmapHostList = list()
 	root = ElementTree.fromstring(nmap_xml)
 	for host in root.iter('host'):
-		item = _NmapHost()
-
+		item = _Host()
 		item.names = [hname.get('name') for hname in host.findall('./hostnames/hostname')]
 		addresses = [item.addresses[haddr.get('addrtype')].append(haddr.get('addr')) for haddr in host.findall('./address')]
-
 		# add the host to the list
 		nmapHostList.append(item)
-	
+
 	return nmapHostList
 
 
@@ -82,53 +116,57 @@ def _scan(fast=True):
 	a = a[:-1]
 	a.append('*')
 	my_ip_segment = '.'.join(a)
-	
+
 	scan_type = '-sP' if fast else '-sn'
-	
+
 	p = subprocess.Popen(['nmap', scan_type, my_ip_segment, '-oX', '-'],
 						stdout=subprocess.PIPE,
 						stderr=subprocess.PIPE,
 						close_fds=True)
-	
+
 	xmlNmap, err = p.communicate()
 	return xmlNmap
 
 
-class _NmapHost():
+class _Host(JsonAble):
 	def __init__(self, n=None, a=None):
 		self.names = n if (n is not None) else []
 		self.addresses = a if (a is not None) else defaultdict(list)
 
 	def __repr__(self):
 		return self.getStr()
-		
+
 	def getStr(self, wN=None, wT=None, wA=None):
 		max_lines = self.maxDispLines()
 		wN = wN if wN is not None else self.maxNameWidth()
 		wT = wT if wT is not None else self.maxTypeWidth()
 		wA = wA if wA is not None else self.maxAttrWidth()
-		
-		columnFmt = lambda x,y: '%' + str(x+y) + 's'
-		line_fmt = columnFmt(wN,0) + columnFmt(wT,2) + columnFmt(wA,2) + '\n'
+
+		columnFmt = lambda x, y: '%' + str(x + y) + 's'
+		line_fmt = '%s' + columnFmt(wN, 2) + columnFmt(wT, 2) + columnFmt(wA, 2) + '\n'
 		line_num_fmt = line_fmt
 
 		# always sort the host names
 		self.names.sort()
-		
+
 		# the new idea is to iterate over the dict lists, and print the next name if we still have them
+		FIRST = '-'
+		NOTFIRST = ' '
 		ret_str = ''
 		i = 0
 		for (type, addrs) in self.addresses.iteritems():
 			for addr in addrs:
-				name = '' if (len(self.names)<=i) else self.names[i]
-				ret_str += line_fmt % (name, type, addr)
+				# make a mark for each host, but only on the first hostname
+				mark = NOTFIRST if i else FIRST
+				name = '' if (len(self.names) <= i) else self.names[i]
+				ret_str += line_fmt % (mark, name, type, addr)
 				i += 1
-		# print hostnames if we have not reached max lines
+		# print any remaining hostnames if we have not reached max_lines
 		for j in range(i, max_lines):
-			ret_str += line_fmt % (self.names[i], '', '')
+			ret_str += line_fmt % (FIRST, self.names[i], '', '')
 
 		return ret_str
-	
+
 	def maxDispLines(self):
 		max_lines = len(self.names)
 		num_addr = 0
@@ -142,7 +180,7 @@ class _NmapHost():
 		else:
 			self.names = ['~']
 			return 1
-	
+
 	def maxTypeWidth(self):
 		return 0 if not self.addresses.keys() else len(max(self.addresses.keys(), key=len));
 
@@ -150,12 +188,3 @@ class _NmapHost():
 		return 0 if not self.addresses.values() else \
 			len(max([max(a, key=len) for a in self.addresses.values()], key=len))
 
-	def printHostTable(self, nhList=None):
-		n=max(self.maxNameWidth(), max([nh.maxNameWidth() for nh in nhList]))
-		t=max(self.maxTypeWidth(), max([nh.maxTypeWidth() for nh in nhList]))
-		a=max(self.maxAttrWidth(), max([nh.maxAttrWidth() for nh in nhList]))
-		nhList.sort(key=lambda x: x.names[0].lower(), reverse=False)
-		print self.getStr(n, t, a)
-		for nh in nhList:
-			print nh.getStr(n, t, a)
-			
