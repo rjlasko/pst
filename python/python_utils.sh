@@ -11,3 +11,11 @@ fi
 alias pst_python="PYTHONPATH=$PST_ROOT/python:$PYTHONPATH python"
 alias pst_python_sudo="sudo PYTHONPATH=$PST_ROOT/python:$PYTHONPATH python"
 
+
+function pst_wol() {
+	PYTHONPATH=$PST_ROOT/python python -c "import toolkit; toolkit.wakeHost(\"$1\", \"$2\")"
+}
+
+function myip() {
+	PYTHONPATH=$PST_ROOT/python python -c "import toolkit; toolkit.getLocalIp()"
+}
