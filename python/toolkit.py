@@ -1,4 +1,6 @@
 
+import socket
+
 from Hacks import nmap;
 from wakeonlan import wol;
 

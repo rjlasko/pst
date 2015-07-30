@@ -27,6 +27,7 @@ if [ -n "$(command -v ifconfig 2>/dev/null)" ] ; then
 	alias myip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
 
 	if [ -n "$(command -v nmap 2>/dev/null)" ] ; then
+		
 		function lanmacs () {
 			local myips=`myip`
 			for ip in $myips ; do
@@ -37,6 +38,10 @@ if [ -n "$(command -v ifconfig 2>/dev/null)" ] ; then
 				echo "-------------------------------------------------------------------------"
 				sudo nmap -sP $seg
 			done
+		}
+		
+		function scanip() {
+			sudo nmap -sP $1
 		}
 	fi
 fi
