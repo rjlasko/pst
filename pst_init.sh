@@ -3,16 +3,6 @@
 # call this function to setup key environmental variables
 # necessary to support running PST scripts.
 
-# if the inherited root has not been set, then set it now
-if [ -z "$PST_INHERITED_PATH" ]; then
-	export PST_INHERITED_PATH=$PATH
-else
-	export PATH=$PST_INHERITED_PATH
-fi 
-	
-
-alias pst_debug='export PST_DEBUG=1'
-
 function pst_debug_echo() {
 	if [ -n "$PST_DEBUG" ]; then
 		echo "$1"
@@ -22,6 +12,20 @@ export -f pst_debug_echo
 # correct usage of the pst_echo_bash_source script is the following
 # which uses the BASH variable BASH_SOURCE to identify which file is currently executing
 pst_debug_echo "$BASH_SOURCE"
+
+alias pst_debug='export PST_DEBUG=1'
+
+# if the inherited root has not been set, then set it now
+# this should be the first thing we do
+if [ -z "$PST_INHERITED_PATH" ]; then
+	export PST_INHERITED_PATH=$PATH
+fi 
+	
+# if we desire to reinitialize bash, we can do it here scratching the path
+function rebash() {
+	export PATH=$PST_INHERITED_PATH
+	source $HOME/.bash_profile
+}
 
 # if the PST_ROOT is not set, then lets set it now
 if [ -z "$PST_ROOT" ]; then

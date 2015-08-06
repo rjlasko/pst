@@ -17,4 +17,4 @@ function get_etc_bashrc() {
 	fi
 }
 
-alias rebash='source $HOME/.bash_profile'
+# alias rebash='source $HOME/.bash_profile'
