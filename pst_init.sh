@@ -3,6 +3,13 @@
 # call this function to setup key environmental variables
 # necessary to support running PST scripts.
 
+# if the inherited root has not been set, then set it now
+if [ -z "$PST_INHERITED_PATH" ]; then
+	export PST_INHERITED_PATH=$PATH
+else
+	export PATH=$PST_INHERITED_PATH
+fi 
+	
 
 alias pst_debug='export PST_DEBUG=1'
 
