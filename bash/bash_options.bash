@@ -59,3 +59,6 @@ shopt -s checkwinsize
 # for example, cd /vr/lgo/apaache would find /var/log/apache
 # shopt -s cdspell
 
+# default file + directory creation mask
+# note that files are never created with their execution bits set, despite the mask
+umask 027
