@@ -32,7 +32,6 @@ case "$PST_OS" in
 esac
 
 # !!!!!!!!!!!!!!!!!!!! Directory Listings
-alias ls='LC_COLLATE=C ls'
 alias l='ls -CF'
 alias ll='ls -l'
 alias la='ls -a'
