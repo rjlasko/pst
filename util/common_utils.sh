@@ -47,6 +47,45 @@ if [ -n "$(command -v ifconfig 2>/dev/null)" ] ; then
 fi
 
 
+if [ -n "$(command -v grep 2>/dev/null)" ] && [ -n "$(command -v sed 2>/dev/null)" ] && [ -n "$(command -v tr 2>/dev/null)" ] ; then
+
+	# find out if we have a GNU or BSD grep
+	_GREP_TYPE=$(grep --version | sed -n -e '1{p;q}' | tr '[A-Z]' '[a-z]')
+	
+	case $_GREP_TYPE in
+		*"gnu grep"*)
+			function numPtreeFiles() {
+				#(lsof -p `pstree -p $1 | grep -o "[0-9]*" | tr '\n' ','` 2>/dev/null) | awk '{print $2}' | tail -n +2 | uniq -c
+				
+				while true
+				do
+					(lsof -p `pstree -p $1 | grep -o "[0-9]*" | tr '\n' ','` 2>/dev/null) | awk '{print $2}' | tail -n +2 | uniq -c
+					echo "-----------"
+					sleep 1
+				done
+			}
+			;;
+
+		*"bsd grep"*)
+			function numPtreeFiles() {
+				echo "does not work yet because OSx grep has shitty regex support!"
+				# pstree -p $1 | grep -o "[0-9]*"
+				return 1
+			}
+			;;
+		*)
+			function numPtreeFiles() {
+				echo "unrecognized grep command"
+				return 1
+			}
+			;;
+	esac
+	unset _GREP_TYPE
+fi
+
+
+
+
 # !!!!!!!!!!!!!!!!!!!! File/Directory Cleanup
 # text editor artifacts
 alias find~="find . -type f -name '*~' -ls"
