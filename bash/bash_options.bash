@@ -52,6 +52,9 @@ shopt -s checkwinsize
 # match all files and zero or more directories and subdirectories.
 # shopt -s globstar
 
+# If set, the extended pattern matching features described under "Pathname Expansion" are enabled.
+# shopt extglob
+
 # Use case-insensitive filename globbing
 # shopt -s nocaseglob
 

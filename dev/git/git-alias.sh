@@ -27,3 +27,24 @@ alias gitrupdt='git submodule update --init --recursive'
 alias gitmergesafe='git merge --no-commit --no-ff'
 alias gitwipe='git clean -dxf'
 alias gitalias='alias | grep "git"'
+
+
+function gitsubfetch() {
+	echo "Git-Fetching all repositories in $(pwd)"
+	for i in $(ls) ; do
+		if [ -d ./$i/.git ] ; then
+			pushd $i >/dev/null
+			
+			while read -r line ; do
+				repo=$(echo $line | cut -d ' ' -f 1)
+				echo "$i - $repo"
+				git ls-remote --exit-code $repo > /dev/null 2>&1
+				if [ $? -eq 0 ] ; then
+					git fetch $repo
+				fi
+			done < <(git remote -v | grep fetch)
+
+			popd >/dev/null
+		fi
+	done
+}
