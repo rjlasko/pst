@@ -50,7 +50,7 @@ fi
 if [ -n "$(command -v grep 2>/dev/null)" ] && [ -n "$(command -v sed 2>/dev/null)" ] && [ -n "$(command -v tr 2>/dev/null)" ] ; then
 
 	# find out if we have a GNU or BSD grep
-	_GREP_TYPE=$(grep --version | sed -n -e '1{p;q}' | tr '[A-Z]' '[a-z]')
+	_GREP_TYPE=$(grep --version | head -n1 | tr '[A-Z]' '[a-z]')
 	
 	case $_GREP_TYPE in
 		*"gnu grep"*)
