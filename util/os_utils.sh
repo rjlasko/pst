@@ -28,13 +28,17 @@ case "$PST_OS" in
 	
 	
 	"linux")
-				
+		
+		if [ -n "$(command -v namei 2>/dev/null)" ] ; then
+			alias permchain='namei -l'
+		fi
+		
+		
 		if [ -f /proc/mounts ] && [ -n "$(command -v grep 2>/dev/null)" ] ; then
 			function testmount() {
 				[ -d $1 ] && grep -qs "$1" /proc/mounts > /dev/null
 			}
 		fi
-		
 		
 		# make less more friendly for non-text input files, see lesspipe(1)
 		[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
