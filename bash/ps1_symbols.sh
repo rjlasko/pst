@@ -25,7 +25,7 @@ getUncommon() {
 	export s_carriage="\r"			# carriage return
 	export s_shellname="\s"			# the name of the shell
 	export s_backslash="\\"
-	export s_escape="\e"			# ASCII escape character
+	export s_escape="\033"			# ASCII escape character
 	export s_histnum="\!"			# history number of this command
 	export s_cmdnum="\#"			# command number of this command
 }

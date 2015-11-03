@@ -12,18 +12,21 @@ pst_debug_echo "$BASH_SOURCE"
 # see: http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/nonprintingchars.html
 # see: http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/bash-prompt-escape-sequences.html
 
+# \x1B = \033 = <the escape character> = \e (sometimes) 
+# \033 tends to be the most robust and commonly understood
+
 getEsc8() {
-	export c_datetime="\[\e[0;31m\]"		# Red
-	export c_user="\[\e[0;92m\]"			# High Intensity Green
-	export c_cwd="\[\e[0;35m\]"				# Purple
-	export c_git="\[\e[0;96m\]"				# High Intensity Cyan
-	export c_sep="\[\e[0;37m\]"				# White
-	export c_prompt="\[\e[0;97m\]"			# High Intensity White
-	export c_reset="\[\e[0m\]"				# resets all coloring
+	export c_datetime="\[\033[0;31m\]"		# Red
+	export c_user="\[\033[0;92m\]"			# High Intensity Green
+	export c_cwd="\[\033[0;35m\]"				# Purple
+	export c_git="\[\033[0;96m\]"				# High Intensity Cyan
+	export c_sep="\[\033[0;37m\]"				# White
+	export c_prompt="\[\033[0;97m\]"			# High Intensity White
+	export c_reset="\[\033[0m\]"				# resets all coloring
 }
 
 getEsc256() {
-	export c_cwd="\[\e[38;5;172m\]"			# Orange
+	export c_cwd="\[\033[38;5;172m\]"			# Orange
 }
 
 # TODO: check on begin/end non-printing characters
