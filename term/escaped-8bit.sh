@@ -3,8 +3,42 @@
 
 # #############################################################################
 # Bunch-o-predefined colors.  Makes reading code easier than escape sequences.
-# \x1B = \033 = <the escape character> = \e (sometimes) 
-# \033 tends to be the most robust and commonly understood
+
+# TODO: never create a function to generate these.
+# Any attempt to do so will be inefficient, incomplete, and unwieldy.
+# Instead, just call them out directly.
+
+# See: http://www.tldp.org/LDP/LGNET/issue65/padala.html
+
+# the pattern tends to look like the following for 8-bit sequences
+#	<esc>[<attr>;<color+modB>m
+
+# with the following definitions
+#	esc = \033 = \e (less robust/common)
+
+#	attr =	0 (regular)
+#			1 (bold)
+#			2 (dim)
+#			4 (underline)
+#			5 (blink)
+#			7 (inverse)
+#			8 (hidden)
+#			([3,6] appear to not do anything)
+
+#	color = 0 (reset)
+#			30 (black)
+#			31 (red)
+#			32 (green)
+#			33 (yellow)
+#			34 (blue)
+#			35 (purple)
+#			36 (cyan)
+#			37 (white)
+
+#	modB =	0 (none)
+#			10 (background)
+#			60 (high-intensity)
+
 # #############################################################################
 
 # Reset

@@ -11,10 +11,8 @@ if [ -z "$BASH_VERSION" ]; then
 fi
 
 
-function get_etc_bashrc() {
+function pst_run_etc_bashrc() {
 	if [ -f "/etc/bashrc" ]; then
 		. "/etc/bashrc"
 	fi
 }
-
-# alias rebash='source $HOME/.bash_profile'
