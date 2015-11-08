@@ -28,6 +28,9 @@ alias gitmergesafe='git merge --no-commit --no-ff'
 alias gitwipe='git clean -dxf'
 alias gitalias='alias | grep "git"'
 
+function gitcohash() {
+	git checkout $(git show $1 | head -n1 | cut -d' ' -f 2)
+}
 
 function gitsubfetch() {
 	echo "Git-Fetching all repositories in $(pwd)"
