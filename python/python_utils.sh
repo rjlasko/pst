@@ -8,14 +8,20 @@ if [ -z "$(command -v python 2>/dev/null)" ] ; then
 	return
 fi
 
-alias pst_python="PYTHONPATH=$PST_ROOT/python:$PYTHONPATH python"
-alias pst_python_sudo="sudo PYTHONPATH=$PST_ROOT/python:$PYTHONPATH python"
+alias pst_python="PYTHONPATH=$PST_ROOT/python:$PST_ROOT/python/pylib:$PST_ROOT/bin:$PYTHONPATH python"
+alias pst_python_sudo='sudo pst_python'
 
 
 function pst_wol() {
-	PYTHONPATH=$PST_ROOT/python python -c "import toolkit; toolkit.wakeHost(\"$1\", \"$2\")"
+	pst_python -c "import toolkit; toolkit.wakeHost(\"$1\", \"$2\")"
 }
 
-function myip() {
-	PYTHONPATH=$PST_ROOT/python python -c "import toolkit; toolkit.getLocalIp()"
+function pst_myifips() {
+	pst_python -c "import toolkit; toolkit.getInterfaceIPs()"
 }
+
+function pst_myips() {
+	pst_python -c "import toolkit; toolkit.getLocalIps()"
+}
+# XXX: an override for the alias in common_utils.sh
+alias myip=pst_myips

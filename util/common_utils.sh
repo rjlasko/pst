@@ -24,6 +24,7 @@ fi
 
 
 if [ -n "$(command -v ifconfig 2>/dev/null)" ] ; then
+# XXX: this alias may be overriden by one defined in python_utils.sh
 	alias myip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
 
 	if [ -n "$(command -v nmap 2>/dev/null)" ] ; then
