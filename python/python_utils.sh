@@ -28,10 +28,10 @@ function pst_myips() {
 alias myip=pst_myips
 
 function pst_easy_install() {
-    install_lib="$PST_ROOT/python/pylib"
-    mkdir -p "$install_lib"
-    install_scripts="$PST_ROOT/python/bin"
-    mkdir -p "$install_scripts"
+	install_lib="$PST_ROOT/python/pylib"
+	mkdir -p "$install_lib"
+	install_scripts="$PST_ROOT/python/bin"
+	mkdir -p "$install_scripts"
 	cfg_file=$HOME/.pydistutils.cfg
 	echo "[install]" > $cfg_file
 	echo "install_lib=$install_lib" >> $cfg_file
