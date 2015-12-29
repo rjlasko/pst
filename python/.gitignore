@@ -1,0 +1,5 @@
+*.pyc
+bin/wol
+pylib/*.egg
+pylib/easy-install.pth
+pylib/site.py
