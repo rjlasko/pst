@@ -8,7 +8,8 @@ if [ -z "$(command -v python 2>/dev/null)" ] ; then
 	return
 fi
 
-alias pst_python="PYTHONPATH=$PST_ROOT/python:$PST_ROOT/python/pylib:$PST_ROOT/bin:$PYTHONPATH python"
+alias pst_pythonpath="PYTHONPATH=$PST_ROOT/python:$PST_ROOT/python/pylib:$PST_ROOT/python/bin:$PYTHONPATH"
+alias pst_python="pst_pythonpath python"
 alias pst_python_sudo='sudo pst_python'
 
 
@@ -25,3 +26,21 @@ function pst_myips() {
 }
 # XXX: an override for the alias in common_utils.sh
 alias myip=pst_myips
+
+function pst_easy_install() {
+	install_lib="install_lib=$PST_ROOT/python/pylib"
+	install_scripts="install_scripts=$PST_ROOT/python/bin"
+	cfg_file=$HOME/.pydistutils.cfg
+	echo "[install]" > $cfg_file
+	echo "$install_lib" >> $cfg_file
+	echo "$install_scripts" >> $cfg_file
+	pst_pythonpath easy_install $@
+	rm $cfg_file
+	rm -rf "$HOME/.python-eggs"
+}
+
+
+
+# TODO: need a cygwin-specific install of easy-install
+
+# TODO: turn the wol package into an egg with easy-install
