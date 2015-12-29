@@ -17,13 +17,13 @@ def getLocalIps():
 				print addy
 
 def getInterfaceIPs():
-	for (ifaceName, addresses) in getInterfaceIpDict().iteritems():
-		print '%s: %s' % (ifaceName, ', '.join(addresses))
+	for (ifaceName, addys) in getInterfaceIpDict().iteritems():
+		print '%s: %s' % (ifaceName, ', '.join(addys) if addys[0] is not None else '')
 
 
 def getInterfaceIpDict():
 	from netifaces import interfaces, ifaddresses, AF_INET
 	ipDict = {}
 	for ifaceName in interfaces():
-		ipDict[ifaceName] = [i['addr'] for i in ifaddresses(ifaceName).setdefault(AF_INET, [{'addr':None}] )]
+		ipDict[ifaceName] = [i['addr'] for i in ifaddresses(ifaceName).setdefault(AF_INET, [{'addr':None}])]
 	return ipDict
