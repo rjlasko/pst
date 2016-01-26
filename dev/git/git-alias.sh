@@ -11,8 +11,8 @@ fi
 
 alias gitl="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias gitgraph='git log --graph --oneline --decorate'
-alias gitb='git branch -a'
-alias gitlocal='git branch -a | grep -v "remotes/"'
+alias gitb='git branch'
+alias gitba='git branch -a'
 alias gitstat='git status'
 alias gitremote='git remote -v'
 alias gitmast='git checkout master'
