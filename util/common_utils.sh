@@ -53,9 +53,8 @@ fi
 # or other options:
 #		http://superuser.com/questions/71588/how-to-syntax-highlight-via-less
 if [ -d "/usr/share/vim" ] ; then
-	local vless_loc=$(find /usr/share/vim -name "less.sh")
-	if [ -n "$vless_loc" ] ; then
-		alias vless=$vless_loc
+	if [ -n $(find /usr/share/vim -name "less.sh") ] ; then
+		alias vless=$(find /usr/share/vim -name "less.sh")
 	fi
 fi
 
