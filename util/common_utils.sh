@@ -47,6 +47,18 @@ if [ -n "$(command -v ifconfig 2>/dev/null)" ] ; then
 	fi
 fi
 
+# a colorized code-syntax highlighter that operates like less
+# XXX: other options are LESSPIPE + GNU's source highlight
+#		http://www.gnu.org/software/src-highlite/source-highlight.html#Using-source_002dhighlight-with-less
+# or other options:
+#		http://superuser.com/questions/71588/how-to-syntax-highlight-via-less
+if [ -d "/usr/share/vim" ] ; then
+	local vless_loc=$(find /usr/share/vim -name "less.sh")
+	if [ -n "$vless_loc" ] ; then
+		alias vless=$vless_loc
+	fi
+fi
+
 
 if [ -n "$(command -v grep 2>/dev/null)" ] && [ -n "$(command -v sed 2>/dev/null)" ] && [ -n "$(command -v tr 2>/dev/null)" ] ; then
 
