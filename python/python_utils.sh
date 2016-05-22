@@ -24,6 +24,8 @@ function pst_myifips() {
 function pst_myips() {
 	pst_python -c "import toolkit; toolkit.getLocalIps()"
 }
+
+
 # XXX: an override for the alias in common_utils.sh
 alias myip=pst_myips
 
@@ -42,7 +44,4 @@ function pst_easy_install() {
 }
 
 
-
 # TODO: need a cygwin-specific install of easy-install
-
-# TODO: turn the wol package into an egg with easy-install

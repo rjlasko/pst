@@ -9,7 +9,7 @@ if [ -z "$(command -v mvn 2>/dev/null)" ] ; then
 fi
 
 
-alias mvntest='mvn clean test'
+alias mvntest_debug='mvn test -Dmaven.surefire.debug'
 alias mvninstall='mvn clean install'
 alias mvninstallquick='mvn clean install -DskipTests'
 alias mvnuprev='mvn versions:set -DgenerateBackupPoms=false'

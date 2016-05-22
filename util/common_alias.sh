@@ -68,5 +68,5 @@ alias envvf='(set)'
 alias whence='command -v'
 
 # !!!!!!!!!!!!!!!!!!!! Process Cleanup
-alias kl='kill -9 %1'
+#alias kl='kill -9 %1'
 

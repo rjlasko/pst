@@ -1,5 +1,5 @@
 *.pyc
-bin/wol
+bin/
 pylib/*.egg
 pylib/easy-install.pth
 pylib/site.py
