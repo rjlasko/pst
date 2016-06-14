@@ -17,6 +17,7 @@ case "$PST_OS" in
 		# no need to modify ls or grep, because they already pick this change up in OSX
 		# technically, ls doesn't need anything in OSX, when executed as 'ln -G'
 		# also, dir & vdir do not exist in OSX
+		alias top='top -o cpu'
 		;;
 	*) # this will probably fail in BSD...
 		if [ -x /usr/bin/dircolors ]; then
