@@ -16,6 +16,7 @@ if [ -n "$(command -v tput 2>/dev/null)" ] && [ -n "$(command -v sed 2>/dev/null
 		local c_yellow=`tput setaf 3`
 		local c_blue=`tput setaf 4`
 		local c_magenta=`tput setaf 5`
+		local c_cyan=`tput setaf 6`
 		local c_reset=`tput sgr0`
 		
 		# Filter mvn output using sed
@@ -26,6 +27,7 @@ if [ -n "$(command -v tput 2>/dev/null)" ] && [ -n "$(command -v sed 2>/dev/null
 		'mvn' $@ | sed \
 					-e "s/\(\[INFO] \)\(---\ .*\)/\1${c_magenta}\2${c_reset}/" \
 					-e "s/\(\[INFO\]\)/${c_blue}\1${c_reset}/" \
+					-e "s/\(\[DEBUG\]\)/${c_cyan}\1${c_reset}/" \
 					-e "s/\(\[WARNING\]\)/${c_yellow}${c_bold}\1${c_reset}/" \
 					-e "s/\(\[ERROR\]\)/${c_red}${c_bold}\1${c_reset}/" \
 					-e "s/\(Tests run: \)\([^,]*\)\(, Failures: \)\([^,]*\)\(, Errors: \)\([^,]*\)\(, Skipped: \)\([^,]*\)/\1${c_bold}${c_green}\2${c_reset}\3${c_bold}${c_red}\4${c_reset}\5${c_bold}${c_red}\6${c_reset}\7${c_bold}${c_yellow}\4${c_reset}/"
