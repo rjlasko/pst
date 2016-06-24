@@ -13,7 +13,10 @@ fi
 #############################
 case "$PST_OS" in
 	"bsd"|"darwin")
-		export LSCOLORS=exgxcxdxbxegdxabagacad
+	
+		export LSCOLORS=ex gx cx dx bx eg dx ab ag ad ac
+
+		export LSCOLORS=exgxcxdxbxegdxabagadac
 		export CLICOLOR=1
 		;;
 	"linux")
