@@ -118,6 +118,10 @@ function pst_ps1ResolveNewLine() {
 	
 	# derived from:
 	# http://stackoverflow.com/questions/19943482/configure-shell-to-always-print-prompt-on-new-line-like-zsh
+	#
+	# FIXME !!
+	# sadly this technique yields some extra junk logged to the prompt every now and then.
+	# it happens most frequently within a OSX 'screen' session...
 	local curpos
 	echo -en $cmdRowCol
 	IFS=';' read -s -d R -a curpos

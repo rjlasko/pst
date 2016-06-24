@@ -11,19 +11,18 @@ fi
 #############################
 # 'ls' Color Initialization #
 #############################
-
-
 case "$PST_OS" in
 	"bsd"|"darwin")
+		export LSCOLORS=exgxcxdxbxegdxabagacad
 		export CLICOLOR=1
 		;;
 	"linux")
-		# LS_COLORS only works with GNU ls
 		if [ -n "$(command -v dircolors 2>/dev/null)" ] ; then
 			# figure out if it is a 256color terminal
 			if [[ "$TERM" == *"256"* ]] ; then
 				eval "$(dircolors -b $PST_ROOT/term/256.dircolors)"
 			else
+				echo "A 8 color terminal!  Maybe update ls_colors to see how well it matches 256 colors!"
 				eval "$(dircolors -b $PST_ROOT/term/8.dircolors)"
 			fi
 		else
