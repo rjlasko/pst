@@ -43,6 +43,9 @@ if [ -z "$PST_OS" ]; then
 		Linux)
 			PST_OS='linux'
 			;;
+		*BSD)
+			PST_OS='bsd'
+			;;
 		Darwin)
 			PST_OS='darwin'
 			;;
