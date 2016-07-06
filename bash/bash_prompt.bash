@@ -40,8 +40,6 @@ function pst_setPS1() {
 	# NOTE: color codes used within $PS1 need to be wrapped by '\[' and '\]'
 	local c_user="\[\033[0;92m\]"			# High Intensity Green
 	local c_cwd="\[\033[0;35m\]"			# Purple
-	local c_sep="\[\033[0;37m\]"			# White
-	local c_prompt="\[\033[0;97m\]"			# High Intensity White
 	local c_reset="\[\033[0m\]"				# resets all coloring
 	# overrides for terminals handling 256-colors
 	if [ "$TERM" == "xterm-256color" ] ; then
@@ -61,8 +59,8 @@ function pst_setPS1() {
 	
 	local PST_PS_USER=${c_user}${s_user}"@"${PST_HOSTNAME}
 	local PST_PS_CWD=${c_cwd}${s_path}
-	local PST_PS_SEP=${c_sep}":"
-	local PST_PS_PROMPT=${c_prompt}${s_newline}"$ "${c_reset}
+	local PST_PS_SEP=${c_reset}":"
+	local PST_PS_PROMPT=${c_reset}${s_newline}"$ "
 	
 	# add the git prompt
 	if [ $2 -eq 1 ] ; then
