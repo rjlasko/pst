@@ -10,7 +10,6 @@ if [ -n "$(command -v column 2>/dev/null)" ] ; then
 	}
 fi
 
-
 if [ -z "$(command -v md5sum 2>/dev/null)" ] && [ -n "$(command -v openssl 2>/dev/null)" ] ; then
 	alias md5sum='openssl md5'
 fi
@@ -22,9 +21,8 @@ if [ -n "$(command -v lsof 2>/dev/null)" ] ; then
 	}
 fi
 
-
 if [ -n "$(command -v ifconfig 2>/dev/null)" ] ; then
-# XXX: this alias may be overriden by one defined in python_utils.sh
+# XXX: this alias may be overridden by one defined in python_utils.sh
 	alias myip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
 
 	if [ -n "$(command -v nmap 2>/dev/null)" ] ; then
@@ -57,7 +55,6 @@ if [ -d "/usr/share/vim" ] ; then
 		alias vless=$(find /usr/share/vim -name "less.sh")
 	fi
 fi
-
 
 if [ -n "$(command -v grep 2>/dev/null)" ] && [ -n "$(command -v sed 2>/dev/null)" ] && [ -n "$(command -v tr 2>/dev/null)" ] ; then
 

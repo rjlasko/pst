@@ -13,6 +13,12 @@ case "$PST_OS" in
 			}
 		fi
 				
+		if [ -n "$(command -v namei 2>/dev/null)" ] ; then
+			function permchain() {
+				namei -l $1 | awk '{print $3" "$5" "$6" "$1}'
+			}
+		fi
+		
 		if [ -n "$(command -v defaults 2>/dev/null)" ] && [ -n "$(command -v killall 2>/dev/null)" ] ; then
 			alias hide='defaults write com.apple.finder AppleShowAllFiles FALSE && killall Finder'
 			alias unhide='defaults write com.apple.finder AppleShowAllFiles TRUE && killall Finder'
@@ -24,20 +30,20 @@ case "$PST_OS" in
 		# which i believe are available via homebrew
 		# but for now i need to get other components working first
 		
+		
 		;;
 	
 	
 	"linux")
 		
-		if [ -n "$(command -v namei 2>/dev/null)" ] ; then
-			alias permchain='namei -l'
-		fi
-		
-		
 		if [ -f /proc/mounts ] && [ -n "$(command -v grep 2>/dev/null)" ] ; then
 			function testmount() {
 				[ -d $1 ] && grep -qs "$1" /proc/mounts > /dev/null
 			}
+		fi
+		
+		if [ -n "$(command -v namei 2>/dev/null)" ] ; then
+			alias permchain='namei -l'
 		fi
 		
 		# make less more friendly for non-text input files, see lesspipe(1)
