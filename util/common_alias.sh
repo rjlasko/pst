@@ -61,6 +61,5 @@ alias envv='(set -o posix ; set)'
 alias envvf='(set)'
 alias whence='command -v'
 
-# !!!!!!!!!!!!!!!!!!!! Process Cleanup
-#alias kl='kill -9 %1'
-
+# !!!!!!!!!!!!!!!!!!!! Alias Helper
+alias sshalias='alias | grep ssh'
