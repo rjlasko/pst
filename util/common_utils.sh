@@ -51,9 +51,12 @@ fi
 # or other options:
 #		http://superuser.com/questions/71588/how-to-syntax-highlight-via-less
 if [ -d "/usr/share/vim" ] ; then
-	if [ -n $(find /usr/share/vim -name "less.sh") ] ; then
-		alias vless=$(find /usr/share/vim -name "less.sh")
+	# this version requires that full VIM be installed, instead of the lite version found in default OS distros
+	_VIM_LESS_SH="$(find /usr/share/vim -mindepth 3 -maxdepth 3 -type f -name "less.sh")"
+	if [ -n "$_VIM_LESS_SH" ] ; then
+		alias vless="$_VIM_LESS_SH"
 	fi
+	unset _VIM_LESS_SH
 fi
 
 if [ -n "$(command -v grep 2>/dev/null)" ] && [ -n "$(command -v sed 2>/dev/null)" ] && [ -n "$(command -v tr 2>/dev/null)" ] ; then

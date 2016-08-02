@@ -1,3 +1,9 @@
+" Install via symblic link at $HOME/
+" 	ie. ln -s <this.file> $HOME/.vimrc
+"
+" Requires full VIM to be installed, does not work with most barebones VI installations
+
+
 syntax on
 
 set noswapfile
