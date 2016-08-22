@@ -29,7 +29,7 @@ alias gitwipe='git clean -dxf'
 alias gitalias='alias | grep "git"'
 
 function gitcohash() {
-	git checkout $(git show $1 | head -n1 | cut -d' ' -f 2)
+	git checkout $(git rev-parse HEAD)
 }
 
 function gitsubfetch() {
