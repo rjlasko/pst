@@ -17,6 +17,10 @@ function dkrsh() {
 	docker exec -it $1 /bin/bash
 }
 
+function dkrli() {
+	docker exec -it $1 /bin/login
+}
+
 function dockerNukeContainer() {
         local name="$1"
         docker stop $(docker ps -a -q -f name="$name") 2>/dev/null
