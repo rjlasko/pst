@@ -10,7 +10,9 @@ fi
 
 
 alias gitl="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-alias gitgraph='git log --graph --oneline --decorate'
+alias gitg='git log --graph --oneline --decorate'
+alias gitga='git log --all --graph --decorate --oneline' # --simplify-by-decoration'
+alias gitgas='git log --all --graph --decorate --oneline --simplify-by-decoration'
 alias gitb='git branch'
 alias gitba='git branch -a'
 alias gitstat='git status'
