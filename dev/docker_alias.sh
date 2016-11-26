@@ -1,4 +1,3 @@
-
 #!/bin/sh
 
 
@@ -10,11 +9,12 @@ if [ -z "$(command -v docker 2>/dev/null)" ] ; then
 fi
 
 alias docker='sudo docker'
-alias dkri="docker images"
+alias dkri="docker images -a"
 alias dkrps='docker ps -a'
+alias dkrv='docker volume ls'
 
 function dkrsh() {
-	docker exec -it $1 /bin/bash
+	docker exec -it $1 /bin/sh
 }
 
 function dkrli() {
@@ -46,7 +46,7 @@ function dockerNukeVolumes() {
 }
 
 function dockerNukeAll() {
-        nukeDockerContainers
-        nukeDockerImages
-        nukeDockerVolumes
+        dockerNukeContainers
+        dockerNukeImages
+        dockerNukeVolumes
 }
