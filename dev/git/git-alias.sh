@@ -3,7 +3,7 @@
 
 pst_debug_echo "$BASH_SOURCE"
 
-if [ -z "$(command -v git 2>/dev/null)" ] ; then
+if [ -z "$(type -t git)" ] ; then
 	echo "It appears that the Git executable 'git' is not in the path!"
 	return
 fi

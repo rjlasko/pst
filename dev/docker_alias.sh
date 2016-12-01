@@ -3,7 +3,7 @@
 
 pst_debug_echo "$BASH_SOURCE"
 
-if [ -z "$(command -v docker 2>/dev/null)" ] ; then
+if [ -z "$(type -t docker)" ] ; then
 	echo "It appears that the docker executable 'docker' is not in the path!"
 	return
 fi

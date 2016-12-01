@@ -2,7 +2,7 @@
 
 pst_debug_echo "$BASH_SOURCE"
 
-if [ -z "$(command -v unison 2>/dev/null)" ] ; then
+if [ -z "$(type -t unison)" ] ; then
 	echo "It appears that the Unison executable 'unison' is not in the path!"
 	return
 fi

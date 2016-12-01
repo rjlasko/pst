@@ -7,19 +7,19 @@ pst_debug_echo "$BASH_SOURCE"
 case "$PST_OS" in
 	"darwin")
 		
-		if [ -n "$(command -v mount 2>/dev/null)" ] && [ -n "$(command -v grep 2>/dev/null)" ] ; then
+		if [ -n "$(type -t mount)" ] && [ -n "$(type -t grep)" ] ; then
 			function testmount() {
 				[ -d $1 ] && mount | grep -qs "on $1" > /dev/null
 			}
 		fi
 				
-		if [ -n "$(command -v namei 2>/dev/null)" ] ; then
+		if [ -n "$(type -t namei)" ] ; then
 			function permchain() {
 				namei -l $1 | awk '{print $3" "$5" "$6" "$1}'
 			}
 		fi
 		
-		if [ -n "$(command -v defaults 2>/dev/null)" ] && [ -n "$(command -v killall 2>/dev/null)" ] ; then
+		if [ -n "$(type -t defaults)" ] && [ -n "$(type -t killall)" ] ; then
 			alias hide='defaults write com.apple.finder AppleShowAllFiles FALSE && killall Finder'
 			alias unhide='defaults write com.apple.finder AppleShowAllFiles TRUE && killall Finder'
 		fi
@@ -36,13 +36,13 @@ case "$PST_OS" in
 	
 	"linux")
 		
-		if [ -f /proc/mounts ] && [ -n "$(command -v grep 2>/dev/null)" ] ; then
+		if [ -f /proc/mounts ] && [ -n "$(type -t grep)" ] ; then
 			function testmount() {
 				[ -d $1 ] && grep -qs "$1" /proc/mounts > /dev/null
 			}
 		fi
 		
-		if [ -n "$(command -v namei 2>/dev/null)" ] ; then
+		if [ -n "$(type -t namei)" ] ; then
 			alias permchain='namei -l'
 		fi
 		

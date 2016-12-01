@@ -3,12 +3,12 @@
 
 pst_debug_echo "$BASH_SOURCE"
 
-if [ -z "$(command -v mvn 2>/dev/null)" ] ; then
+if [ -z "$(type -t mvn)" ] ; then
 	echo "It appears that the Maven executable 'mvn' is not in the path!"
 	return
 fi
 
-if [ -n "$(command -v tput 2>/dev/null)" ] && [ -n "$(command -v sed 2>/dev/null)" ] ; then
+if [ -n "$(type -t tput)" ] && [ -n "$(type -t sed)" ] ; then
 	function mvn-color() {
 		local c_bold=`tput bold`
 		local c_red=`tput setaf 1`

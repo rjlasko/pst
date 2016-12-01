@@ -59,7 +59,7 @@ alias ffr='find / -name $1'
 alias envx='env | sort'
 alias envv='(set -o posix ; set)'
 alias envvf='(set)'
-alias whence='command -v'
+alias whence='type -a'
 alias hostname='hostname -f'
 
 # !!!!!!!!!!!!!!!!!!!! Alias Helper

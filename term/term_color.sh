@@ -40,7 +40,7 @@ c_cwd="$(tput setaf 172)"	# Orange
 c_user="$(tput setaf 46)"	# High Intensity Green
 
 hasTput() {
-	if [ -n "$(command -v tput 2>/dev/null)" ] ; then
+	if [ -n "$(type -t tput)" ] ; then
 		return 0
 	else
 		return 1

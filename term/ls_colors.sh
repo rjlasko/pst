@@ -3,7 +3,7 @@
 
 pst_debug_echo "$BASH_SOURCE"
 
-if [ -z "$(command -v ls 2>/dev/null)" ] ; then
+if [ -z "$(type -t ls)" ] ; then
 	echo "It appears that 'ls' is not in the path!"
 	return
 fi
@@ -18,7 +18,7 @@ case "$PST_OS" in
 		export CLICOLOR=1
 		;;
 	"linux")
-		if [ -n "$(command -v dircolors 2>/dev/null)" ] ; then
+		if [ -n "$(type -t dircolors)" ] ; then
 			# figure out if it is a 256color terminal
 			if [[ "$TERM" == *"256"* ]] ; then
 				eval "$(dircolors -b $PST_ROOT/term/256.dircolors)"
