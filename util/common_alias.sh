@@ -60,6 +60,7 @@ alias envx='env | sort'
 alias envv='(set -o posix ; set)'
 alias envvf='(set)'
 alias whence='command -v'
+alias hostname='hostname -f'
 
 # !!!!!!!!!!!!!!!!!!!! Alias Helper
 alias sshalias='alias | grep ssh'
