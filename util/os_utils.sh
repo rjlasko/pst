@@ -19,9 +19,12 @@ case "$PST_OS" in
 			}
 		fi
 		
-		if [ -n "$(type -t defaults)" ] && [ -n "$(type -t killall)" ] ; then
-			alias hide='defaults write com.apple.finder AppleShowAllFiles FALSE && killall Finder'
-			alias unhide='defaults write com.apple.finder AppleShowAllFiles TRUE && killall Finder'
+		if [ -n "$(type -t killall)" ] ; then
+			alias killmc='killall Dock'
+			if [ -n "$(type -t defaults)" ] ; then
+					alias hide='defaults write com.apple.finder AppleShowAllFiles FALSE && killall Finder'
+					alias unhide='defaults write com.apple.finder AppleShowAllFiles TRUE && killall Finder'
+			fi
 		fi
 		
 		# I could add to the existing OS the components called out below:

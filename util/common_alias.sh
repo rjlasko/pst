@@ -61,6 +61,7 @@ alias envv='(set -o posix ; set)'
 alias envvf='(set)'
 alias whence='type -a'
 alias hostname='hostname -f'
+alias clearhist='cat /dev/null > ~/.bash_history && history -c'
 
 # !!!!!!!!!!!!!!!!!!!! Alias Helper
 alias sshalias='alias | grep ssh'
