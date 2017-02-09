@@ -7,6 +7,20 @@ pst_debug_echo "$BASH_SOURCE"
 case "$PST_OS" in
 	"darwin")
 		
+		function switchLink() {
+			if [ "$#" -ne 2 ] ; then
+				echo "ERROR: This script expects 1 argument, with syntax:" 1>&2
+				echo "       switchLink <symbolicLink> <newTarget>" 1>&2
+			elif [ ! -L "$1" ] ; then
+				echo "ERROR: The first argument is not a symbolic link!" 1>&2
+				return -1
+			elif [ ! -e "$2" ] ; then 
+				echo "ERROR: The second argument is not a symbolic link!" 1>&2
+				return -1
+			fi
+			ln -s "$2" "$1"
+		}
+		
 		if [ -n "$(type -t mount)" ] && [ -n "$(type -t grep)" ] ; then
 			function testmount() {
 				[ -d $1 ] && mount | grep -qs "on $1" > /dev/null
@@ -38,6 +52,22 @@ case "$PST_OS" in
 	
 	
 	"linux")
+		
+		function switchLink() {
+			if [ "$#" -ne 2 ] ; then
+				echo "ERROR: This script expects 1 argument, with syntax:" 1>&2
+				echo "       switchLink <symbolicLink> <newTarget>" 1>&2
+			elif [ ! -L "$1" ] ; then
+				echo "ERROR: The first argument is not a symbolic link!" 1>&2
+				return -1
+			elif [ ! -e "$2" ] ; then 
+				echo "ERROR: The second argument is not a symbolic link!" 1>&2
+				return -1
+			fi
+			local tempLinkName=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+			ln -s "$2" "$tempLinkName"
+			mv -T "$tempLinkName" "$1"
+		}
 		
 		if [ -f /proc/mounts ] && [ -n "$(type -t grep)" ] ; then
 			function testmount() {
