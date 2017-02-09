@@ -41,6 +41,17 @@ case "$PST_OS" in
 			fi
 		fi
 		
+		if [ -n "$(type -t sshfs)" ] ; then
+			function mountssh() {
+				local osx_volume_name="$1"
+				local ssh_user="$2"
+				local ssh_host="$3"
+				local remote_path="$4"
+				local local_path="$5"
+				sshfs -p 22 -o noappledouble -o volname="$osx_volume_name" "${ssh_user}@${ssh_host}:${remote_path}" "${local_path}"
+			}
+		fi
+		
 		# I could add to the existing OS the components called out below:
 			# lesspipe
 			# bash_completion
