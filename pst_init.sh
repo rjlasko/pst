@@ -5,7 +5,10 @@
 
 function pst_debug_echo() {
 	if [ -n "$PST_DEBUG" ]; then
-		echo "$1"
+		local script_source="$1"
+		local script_root=$(cd $(dirname "$script_source") ; pwd -P)
+		local script_name=$(basename "${script_source[0]}")
+		echo "${USER}@$(hostname) running: ${script_root}/${script_name} $@"
 	fi
 }
 export -f pst_debug_echo
