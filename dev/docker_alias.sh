@@ -15,6 +15,11 @@ alias dkri="docker images -a"
 alias dkrps='docker ps -a'
 alias dkrv='docker volume ls'
 
+# useful docker daemon (dockerd) commands
+alias dkrdrestart='sudo service docker restart'
+alias dkrdlog='sudo journalctl -fu docker.service
+alias dkrdlogf='journalctl -fu docker _TRANSPORT=stdout + OBJECT_EXE=docker'
+
 
 function dkrsh() {
 	docker exec -it $1 /bin/sh
