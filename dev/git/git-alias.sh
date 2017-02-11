@@ -71,3 +71,14 @@ function gitsubfetch() {
 		fi
 	done
 }
+
+function git_amend_author_all() {
+	read -p "Please enter NEW author name : " author_name
+	read -p "Please enter NEW author email: " author_email
+	git filter-branch -f --commit-filter ' \
+		export GIT_AUTHOR_NAME="'"$author_name"'"; \
+		export GIT_AUTHOR_EMAIL='"$author_email"'; \
+		export GIT_COMMITTER_NAME="'"$author_name"'"; \
+		export GIT_COMMITTER_EMAIL='"$author_email"'; \
+		git commit-tree "$@"'
+}
