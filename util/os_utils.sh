@@ -28,6 +28,7 @@ case "$PST_OS" in
 		fi
 				
 		if [ -n "$(type -t namei)" ] ; then
+#			alias nameiom='namei -om'
 			function permchain() {
 				namei -l $1 | awk '{print $3" "$5" "$6" "$1}'
 			}
@@ -86,7 +87,9 @@ case "$PST_OS" in
 			}
 		fi
 		
+		
 		if [ -n "$(type -t namei)" ] ; then
+#			alias nameiom='namei -om'
 			alias permchain='namei -l'
 		fi
 		

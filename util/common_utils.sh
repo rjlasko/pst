@@ -21,6 +21,10 @@ if [ -n "$(type -t lsof)" ] ; then
 	}
 fi
 
+if [ -n "$(type -t curl)" ] ; then
+	alias myPublicIP='curl ipinfo.io/ip'
+fi
+
 if [ -n "$(type -t ifconfig)" ] ; then
 # XXX: this alias may be overridden by one defined in python_utils.sh
 	alias myip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
