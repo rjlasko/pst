@@ -8,12 +8,13 @@ if [ -z "$(type -t docker)" ] ; then
 	return
 fi
 
-alias docker='sudo docker'
-alias docker-compose='sudo docker-compose'
-alias dkrcmp='docker-compose'
+#alias docker='sudo docker'
+#alias docker-compose='sudo docker-compose'
+#alias dkrcmp='docker-compose'
 alias dkri="docker images -a"
 alias dkrps='docker ps -a'
 alias dkrv='docker volume ls'
+alias dkrnt='docker network ls'
 
 # useful docker daemon (dockerd) commands
 alias dkrdrestart='sudo service docker restart'
