@@ -43,5 +43,9 @@ function pst_easy_install() {
 	rm -rf "$HOME/.python-eggs"
 }
 
+function pst_get_python_toolkit_deps() {
+	pst_easy_install netifaces
+	pst_easy_install wakeonlan
+}
 
 # TODO: need a cygwin-specific install of easy-install
