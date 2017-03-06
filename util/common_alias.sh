@@ -12,16 +12,16 @@ pst_debug_echo "$BASH_SOURCE"
 # enable color support of ls and add handy aliases
 
 case "$PST_OS" in
-	"darwin")
-		# no need to modify ls or grep, because they already pick up color settings in OSX
-		# technically, ls doesn't need anything in OSX, when executed as 'ln -G' (but grep does)
-		# also, dir & vdir do not exist in OSX
+	"bsd"|"darwin")
+		# no need to modify ls or grep, because they already pick up color settings in BSD/OSx
 		alias top='top -o cpu'
 		;;
-	*)
+	"linux")
 		alias ls='LC_COLLATE=C ls --color=auto'
 		alias dir='dir --color=auto'
 		alias vdir='vdir --color=auto'
+		;;
+	*)
 		;;
 esac
 
