@@ -21,6 +21,8 @@ alias dkrdrestart='sudo service docker restart'
 alias dkrdlog='sudo journalctl -fu docker.service'
 alias dkrdlogf='journalctl -fu docker _TRANSPORT=stdout + OBJECT_EXE=docker'
 
+# this alias only applies to OSx systems...  prolly want to have the proper conditional in front of it...
+alias dkrtty='screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty'
 
 function dkrsh() {
 	docker exec -it $1 /bin/sh
