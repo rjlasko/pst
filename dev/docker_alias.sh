@@ -37,8 +37,10 @@ function dockerNukeContainer() {
 }
 
 function dockerNukeContainers() {
-	docker stop $(docker ps -a -q) 2>/dev/null
-	docker rm $(docker ps -a -q) 2>/dev/null
+	for ctr in $(docker ps -a -q) ; do
+		docker stop "$ctr"
+		docker rm "$ctr"
+	done
 }
 
 function dockerNukeImage() {
@@ -47,17 +49,23 @@ function dockerNukeImage() {
 }
 
 function dockerNukeImages() {
-	docker rmi $(docker images -a -q) 2>/dev/null
+	for img in $(docker images -a -q) ; do
+		docker rmi -f "$img"
+	done
 }
 
 function dockerNukeVolumes() {
-	docker volume rm $(docker volume ls -qf dangling=true)
+	for vol in $(docker volume ls -qf dangling=true) ; do
+		docker volume rm "$vol"
+	done
 }
 
 function dockerNukeAll() {
-	dockerNukeContainers
-	dockerNukeImages
-	dockerNukeVolumes
+	(
+		dockerNukeContainers
+		dockerNukeImages
+		dockerNukeVolumes
+	)
 }
 
 function dkrTest() {
