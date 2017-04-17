@@ -72,6 +72,17 @@ function gitsubfetch() {
 	done
 }
 
+function git_set_user() {
+	: "${1:?ERROR: not set!}"
+	read -p "Please enter user.name : " author_name
+	read -p "Please enter user.email: " author_email
+	git config "$1" user.name "$author_name"
+	git config "$1" user.email "$author_email"
+}
+
+alias git_set_user_local="git_set_user --local"
+alias git_set_user_global="git_set_user --global"
+
 function git_amend_author_all() {
 	read -p "Please enter NEW author name : " author_name
 	read -p "Please enter NEW author email: " author_email
