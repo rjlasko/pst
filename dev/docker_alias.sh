@@ -91,18 +91,3 @@ function dkrTestImage() {
 		dockerNukeContainer "$name"
 	)
 }
-function dkrUbuntu() {
-	IMAGE_NAME="ubuntu:latest"
-	EXEC_CMD="/bin/bash"
-	dkrTest
-}
-function dkrPhusion() {
-	IMAGE_NAME="phusion/baseimage:latest"
-	EXEC_CMD="/bin/bash"
-	dkrTest
-}
-function dkrAlpine() {
-	IMAGE_NAME="alpine:latest"
-	EXEC_CMD="/bin/sh"
-	dkrTest
-}
