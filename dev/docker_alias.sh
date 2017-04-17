@@ -70,23 +70,25 @@ function dockerNukeAll() {
 	)
 }
 
-function dkrTest() {
+function dkrTestImage() {
 	: "${IMAGE_NAME:?ERROR: not set!}"
 	: "${EXEC_CMD:?ERROR: not set!}"
 	(
 		set -x
 		local name="test"
 	#	docker build -t "$name" "$IMAGE_NAME"
-		docker run \
+		RUN_OPTIONS="$RUN_OPTIONS \
 			-it \
 			-p 31415 \
 			--cap-add=NET_ADMIN \
+			--device /dev/net/tun"
+		docker run \
+			$RUN_OPTIONS \
 			--name "$name" \
 			"$IMAGE_NAME" \
 			$EXEC_CMD
 		
 		dockerNukeContainer "$name"
-	#	docker rm "$name"
 	)
 }
 function dkrUbuntu() {
