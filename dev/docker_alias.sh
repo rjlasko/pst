@@ -79,9 +79,11 @@ function dkrTestImage() {
 	#	docker build -t "$name" "$IMAGE_NAME"
 		RUN_OPTIONS="$RUN_OPTIONS \
 			-it \
-			-p 31415 \
+			-v /etc/localtime:/etc/localtime \
+			-p 31415:31415 \
 			--cap-add=NET_ADMIN \
 			--device /dev/net/tun"
+			
 		docker run \
 			$RUN_OPTIONS \
 			--name "$name" \
