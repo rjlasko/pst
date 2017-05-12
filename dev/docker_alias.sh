@@ -93,3 +93,19 @@ function dkrTestImage() {
 		dockerNukeContainer "$name"
 	)
 }
+
+function dkrTestCompose() {
+	: "${COMPOSE_DIR:?ERROR: not set!}"
+	(
+		set -x
+		pushd "$COMPOSE_DIR"
+		
+		if [ -n "$COMPOSE_FILE" ] ; then
+			docker-compose -f $COMPOSE_FILE up -d --remove-orphans --build
+		else
+			docker-compose up -d --remove-orphans --build
+		fi
+		
+		popd
+	)
+}
