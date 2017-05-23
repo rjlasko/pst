@@ -11,7 +11,12 @@ function pst_debug_echo() {
 		echo "${USER}@$(hostname) running: ${script_root}/${script_name} $@"
 	fi
 }
-export -f pst_debug_echo
+
+# The below code will cause the pst_debug_echo function to be exported as an
+# environment variable named: BASH_FUNC_pst_debug_echo%%
+# it seems that this may not be necessary, so it is disabled for now.
+#export -f pst_debug_echo
+
 # correct usage of the pst_echo_bash_source script is the following
 # which uses the BASH variable BASH_SOURCE to identify which file is currently executing
 pst_debug_echo "$BASH_SOURCE"
