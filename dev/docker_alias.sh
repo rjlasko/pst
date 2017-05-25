@@ -70,22 +70,34 @@ function dockerNukeAll() {
 	)
 }
 
-function dkrTestImage() {
+function dkrRunImageD() {
+	(
+		DKR_CMD_OPTS="$DKR_CMD_OPTS -d"
+		dkrRunImage
+	)
+}
+
+function dkrRunImageIT() {
+	(
+		DKR_CMD_OPTS="$DKR_CMD_OPTS -it"
+		dkrRunImage
+	)
+}
+
+function dkrRunImage() {
 	: "${IMAGE_NAME:?ERROR: not set!}"
 	: "${EXEC_CMD:?ERROR: not set!}"
 	(
 		set -x
 		local name="test"
-	#	docker build -t "$name" "$IMAGE_NAME"
-		RUN_OPTIONS="$RUN_OPTIONS \
-			-it \
+		DKR_CMD_OPTS="$DKR_CMD_OPTS \
 			-v /etc/localtime:/etc/localtime \
 			-p 31415:31415 \
 			--cap-add=NET_ADMIN \
 			--device /dev/net/tun"
 			
 		docker run \
-			$RUN_OPTIONS \
+			$DKR_CMD_OPTS \
 			--name "$name" \
 			"$IMAGE_NAME" \
 			$EXEC_CMD
@@ -94,7 +106,30 @@ function dkrTestImage() {
 	)
 }
 
-function dkrTestCompose() {
+function dkrStartContainer() {
+	: "${IMAGE_NAME:?ERROR: not set!}"
+	(
+		set -x
+		local name="test"
+		
+		DKR_CMD_OPTS="$DKR_CMD_OPTS \
+			-v /etc/localtime:/etc/localtime \
+			-p 31415:31415 \
+			--cap-add=NET_ADMIN \
+			--device /dev/net/tun"
+		
+		docker create \
+			$DKR_CMD_OPTS \
+			--name "$name" \
+			"$IMAGE_NAME"
+			
+		docker start "$name"
+		
+		docker logs -f "$name"
+	)
+}
+
+function dkrCompose() {
 	: "${COMPOSE_DIR:?ERROR: not set!}"
 	(
 		set -x
