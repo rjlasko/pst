@@ -39,6 +39,7 @@ alias gitp='git pull'
 alias gitr='git remote -v'
 alias gitst='git status'
 alias gitwipe='git clean -dxf'
+alias gitunmerged='git branch --no-merged && git branch -r --no-merged'
 
 #alias gitpull='git pull --rebase'
 #alias gitrpull='git pull --rebase --recurse-submodules'
