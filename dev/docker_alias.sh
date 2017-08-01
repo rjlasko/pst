@@ -57,15 +57,33 @@ function dockerNukeImages() {
 }
 
 function dockerNukeVolumes() {
-	for vol in $(docker volume ls -qf dangling=true) ; do
+	for vol in $(docker volume ls -q -f dangling=true) ; do
 		docker volume rm "$vol"
 	done
 }
 
+function dockerCleanAll() {
+	echo "- Containers..."
+		for ctr in $(docker ps -a -q -f "status=exited") ; do
+		docker rm "$ctr"
+	done
+	
+	echo "- Images..."
+	for img in $(docker images -a -q -f "dangling=true") ; do
+		docker rmi -f "$img"
+	done
+	
+	echo "- Volumes..."
+	dockerNukeVolumes
+}
+
 function dockerNukeAll() {
 	(
+		echo "- Containers..."
 		dockerNukeContainers
+		echo "- Images..."
 		dockerNukeImages
+		echo "- Volumes..."
 		dockerNukeVolumes
 	)
 }
