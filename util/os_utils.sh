@@ -34,12 +34,26 @@ case "$PST_OS" in
 			}
 		fi
 		
+		if [ -n "$(type -t defaults)" ] ; then
+				alias hide='defaults write com.apple.finder AppleShowAllFiles FALSE && killall Finder'
+				alias unhide='defaults write com.apple.finder AppleShowAllFiles TRUE && killall Finder'
+		fi
+		
 		if [ -n "$(type -t killall)" ] ; then
 			alias killmc='killall Dock'
-			if [ -n "$(type -t defaults)" ] ; then
-					alias hide='defaults write com.apple.finder AppleShowAllFiles FALSE && killall Finder'
-					alias unhide='defaults write com.apple.finder AppleShowAllFiles TRUE && killall Finder'
-			fi
+		fi
+		
+		if [ -n "$(type -t scutil)" ] ; then
+			function fixVpnAssignedHostname() {
+				read -p "Have you disconnected from the VPN? y/N : " proceed  
+				proceed=${proceed:-n}
+				if [ "y" != "$proceed" ] && [ "Y" != "$proceed" ] ; then
+					echo "Aborting..."
+					exit -1
+				fi
+				scutil --set HostName $(scutil --get LocalHostName)
+				echo "You should be good to reconnect to the VPN, and get the correct hostname assignment"
+			}
 		fi
 		
 		if [ -n "$(type -t sshfs)" ] ; then
