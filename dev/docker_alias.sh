@@ -32,39 +32,39 @@ function dkrli() {
 	docker exec -it $1 /bin/login
 }
 
-function dockerNukeContainer() {
+function dkrNukeContainer() {
 	local name="$1"
 	docker stop $(docker ps -a -q -f name="$name") 2>/dev/null
 	docker rm $(docker ps -a -q -f name="$name") 2>/dev/null
 }
 
-function dockerNukeContainers() {
+function dkrNukeContainers() {
 	for ctr in $(docker ps -a -q) ; do
 		docker stop "$ctr"
 		docker rm "$ctr"
 	done
 }
 
-function dockerNukeImage() {
+function dkrNukeImage() {
 	local repository="$1"
 	docker rmi $(docker images -a -q "$repository") 2>/dev/null
 }
 
-function dockerNukeImages() {
+function dkrNukeImages() {
 	for img in $(docker images -a -q) ; do
 		docker rmi -f "$img"
 	done
 }
 
-function dockerNukeVolumes() {
-	for vol in $(docker volume ls -q -f dangling=true) ; do
+function dkrNukeVolumes() {
+	for vol in $(docker volume ls -q) ; do
 		docker volume rm "$vol"
 	done
 }
 
-function dockerCleanAll() {
+function dkrCleanAll() {
 	echo "- Containers..."
-		for ctr in $(docker ps -a -q -f "status=exited") ; do
+	for ctr in $(docker ps -a -q -f "status=exited") ; do
 		docker rm "$ctr"
 	done
 	
@@ -74,17 +74,37 @@ function dockerCleanAll() {
 	done
 	
 	echo "- Volumes..."
-	dockerNukeVolumes
+	for vol in $(docker volume ls -q -f dangling=true) ; do
+		docker volume rm "$vol"
+	done
 }
 
-function dockerNukeAll() {
+function dkrNukeAll() {
 	(
 		echo "- Containers..."
-		dockerNukeContainers
+		dkrNukeContainers
 		echo "- Images..."
-		dockerNukeImages
+		dkrNukeImages
 		echo "- Volumes..."
-		dockerNukeVolumes
+		dkrNukeVolumes
+	)
+}
+
+function dkrBuildTest() {
+	(
+		set -x
+		
+		# default build context is current directory
+		BUILD_CTX="${BUILD_CTX:-${1:-.}}"
+		
+		# default image name is 'test'
+		local defaultImageName="test_image_${PWD##*/}"
+		export IMAGE_NAME="${IMAGE_NAME:-${2:-$defaultImageName}}"
+		
+		export EXEC_CMD="${EXEC_CMD:-${3:-/bin/sh}}"
+		
+		docker build --tag "$IMAGE_NAME" --force-rm "$BUILD_CTX"
+		dkrRunImageIT
 	)
 }
 
@@ -97,7 +117,9 @@ function dkrRunImageD() {
 
 function dkrRunImageIT() {
 	(
-		DKR_CMD_OPTS="$DKR_CMD_OPTS -it"
+		export IMAGE_NAME="${IMAGE_NAME:-$1}"
+		export EXEC_CMD="${EXEC_CMD:-${2:-/bin/sh}}"
+		DKR_CMD_OPTS="$DKR_CMD_OPTS --interactive --tty"
 		dkrRunImage
 	)
 }
@@ -106,44 +128,63 @@ function dkrRunImage() {
 	: "${IMAGE_NAME:?ERROR: not set!}"
 	: "${EXEC_CMD:?ERROR: not set!}"
 	(
-		set -x
-		local name="test"
-		DKR_CMD_OPTS="$DKR_CMD_OPTS \
-			-v /etc/localtime:/etc/localtime \
-			-p 31415:31415 \
-			--cap-add=NET_ADMIN \
-			--device /dev/net/tun"
+		local name="test_image"
+		# turn off errors while attempting to nuke container
+		set +e
+		dkrNukeContainer "$name"
+	
+		(
+			set -ex
 			
-		docker run \
-			$DKR_CMD_OPTS \
-			--name "$name" \
-			"$IMAGE_NAME" \
-			$EXEC_CMD
-		
-		dockerNukeContainer "$name"
+			if [ "$(uname)" == "Linux" ] ; then
+				DKR_CMD_OPTS="$DKR_CMD_OPTS \
+					-v /etc/localtime:/etc/localtime \
+					--device /dev/net/tun"
+			fi
+			
+			DKR_CMD_OPTS="$DKR_CMD_OPTS \
+				-p 31415:31415 \
+				--cap-add=NET_ADMIN"
+			
+			docker run \
+				$DKR_CMD_OPTS \
+				--name "$name" \
+				"$IMAGE_NAME" \
+				$EXEC_CMD
+		)
 	)
 }
 
 function dkrStartContainer() {
 	: "${IMAGE_NAME:?ERROR: not set!}"
 	(
-		set -x
-		local name="test"
+		local name="testContainer"
+		# turn off errors while attempting to nuke container
+		set +e
+		dkrNukeContainer "$name"
 		
-		DKR_CMD_OPTS="$DKR_CMD_OPTS \
-			-v /etc/localtime:/etc/localtime \
-			-p 31415:31415 \
-			--cap-add=NET_ADMIN \
-			--device /dev/net/tun"
-		
-		docker create \
-			$DKR_CMD_OPTS \
-			--name "$name" \
-			"$IMAGE_NAME"
+		(
+			set -ex
 			
-		docker start "$name"
-		
-		docker logs -f "$name"
+			if [ "$(uname)" == "Linux" ] ; then
+				DKR_CMD_OPTS="$DKR_CMD_OPTS \
+					-v /etc/localtime:/etc/localtime \
+					--device /dev/net/tun"
+			fi
+			
+			DKR_CMD_OPTS="$DKR_CMD_OPTS \
+				-p 31415:31415 \
+				--cap-add=NET_ADMIN"
+			
+			docker create \
+				$DKR_CMD_OPTS \
+				--name "$name" \
+				"$IMAGE_NAME"
+			
+			docker start "$name"
+			
+			docker logs -f "$name"
+		)
 	)
 }
 

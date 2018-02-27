@@ -46,7 +46,7 @@ fi
 
 
 if [ -z "$PST_OS" ]; then
-	unamestr=`uname`
+	unamestr=$(uname)
 	case $unamestr in
 		Linux)
 			PST_OS='linux'
