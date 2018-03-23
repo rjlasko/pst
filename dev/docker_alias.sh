@@ -3,10 +3,19 @@
 
 pst_debug_echo "$BASH_SOURCE"
 
-if [ -z "$(type -t docker)" ] ; then
+if [ -n "$(type -t docker)" ] ; then
+	docker ps -a
+else
 	echo "It appears that the docker executable 'docker' is not in the path!"
 	return
 fi
+
+function killTheWhale() {
+	$(mdfind Docker.app)/Contents/MacOS/Docker --uninstall
+	sudo rm -rf /Library/Containers/com.docker.*
+	sudo rm -rf /Library/PrivilegedHelperTools/com.docker.vmnetd
+	sudo rm -rf /Library/LaunchDaemons/com.docker.vmnetd.plist
+}
 
 #alias docker='sudo docker'
 #alias docker-compose='sudo docker-compose'
@@ -142,9 +151,9 @@ function dkrRunImage() {
 					--device /dev/net/tun"
 			fi
 			
-			DKR_CMD_OPTS="$DKR_CMD_OPTS \
-				-p 31415:31415 \
-				--cap-add=NET_ADMIN"
+#			DKR_CMD_OPTS="$DKR_CMD_OPTS \
+#				-p 31415:31415 \
+#				--cap-add=NET_ADMIN"
 			
 			docker run \
 				$DKR_CMD_OPTS \
@@ -188,18 +197,3 @@ function dkrStartContainer() {
 	)
 }
 
-function dkrCompose() {
-	: "${COMPOSE_DIR:?ERROR: not set!}"
-	(
-		set -x
-		pushd "$COMPOSE_DIR"
-		
-		if [ -n "$COMPOSE_FILE" ] ; then
-			docker-compose -f $COMPOSE_FILE up -d --remove-orphans --build
-		else
-			docker-compose up -d --remove-orphans --build
-		fi
-		
-		popd
-	)
-}
