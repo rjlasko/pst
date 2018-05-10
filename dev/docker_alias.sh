@@ -10,16 +10,6 @@ else
 	return
 fi
 
-function killTheWhale() {
-	$(mdfind Docker.app)/Contents/MacOS/Docker --uninstall
-	sudo rm -rf /Library/Containers/com.docker.*
-	sudo rm -rf /Library/PrivilegedHelperTools/com.docker.vmnetd
-	sudo rm -rf /Library/LaunchDaemons/com.docker.vmnetd.plist
-}
-
-#alias docker='sudo docker'
-#alias docker-compose='sudo docker-compose'
-#alias dkrcmp='docker-compose'
 alias dkri="docker images -a"
 alias dkrps='docker ps -a'
 alias dkrv='docker volume ls'
@@ -29,9 +19,6 @@ alias dkrnt='docker network ls'
 alias dkrdrestart='sudo service docker restart'
 alias dkrdlog='sudo journalctl -fu docker.service'
 alias dkrdlogf='journalctl -fu docker _TRANSPORT=stdout + OBJECT_EXE=docker'
-
-# this alias only applies to OSx systems...  prolly want to have the proper conditional in front of it...
-alias dkrtty='screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty'
 
 function dkrsh() {
 	docker exec -it $1 /bin/sh
@@ -197,3 +184,13 @@ function dkrStartContainer() {
 	)
 }
 
+if [ "$(uname)" == "Darwin" ] ; then
+	function killTheWhale() {
+		$(mdfind Docker.app)/Contents/MacOS/Docker --uninstall
+		sudo rm -rf /Library/Containers/com.docker.*
+		sudo rm -rf /Library/PrivilegedHelperTools/com.docker.vmnetd
+		sudo rm -rf /Library/LaunchDaemons/com.docker.vmnetd.plist
+	}
+	
+	alias dkrtty='screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty'
+fi
