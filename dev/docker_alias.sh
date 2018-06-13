@@ -58,23 +58,6 @@ function dkrNukeVolumes() {
 	done
 }
 
-function dkrCleanAll() {
-	echo "- Containers..."
-	for ctr in $(docker ps -a -q -f "status=exited") ; do
-		docker rm "$ctr"
-	done
-	
-	echo "- Images..."
-	for img in $(docker images -a -q -f "dangling=true") ; do
-		docker rmi -f "$img"
-	done
-	
-	echo "- Volumes..."
-	for vol in $(docker volume ls -q -f dangling=true) ; do
-		docker volume rm "$vol"
-	done
-}
-
 function dkrNukeAll() {
 	(
 		echo "- Containers..."
@@ -84,6 +67,33 @@ function dkrNukeAll() {
 		echo "- Volumes..."
 		dkrNukeVolumes
 	)
+}
+
+function dkrCleanContainers() {
+	for ctr in $(docker ps -a -q -f "status=exited") ; do
+		docker rm "$ctr"
+	done
+}
+
+function dkrCleanImages() {
+	for img in $(docker images -a -q -f "dangling=true") ; do
+		docker rmi -f "$img"
+	done
+}
+
+function dkrCleanVolumes() {
+	for vol in $(docker volume ls -q -f dangling=true) ; do
+		docker volume rm "$vol"
+	done
+}
+
+function dkrCleanAll() {
+	echo "- Containers..."
+	dkrCleanContainers	
+	echo "- Images..."
+	dkrCleanImages
+	echo "- Volumes..."
+	dkrCleanVolumes
 }
 
 function dkrBuildTest() {
