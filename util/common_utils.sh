@@ -3,6 +3,14 @@
 
 pst_debug_echo "$BASH_SOURCE"
 
+# adds the user-specific bin directory, if it exists
+if [ -d "${HOME}/bin" ] ; then
+	# but only if it isn't already in the path
+	if [[ ! "$PATH" = *"${HOME}/bin"* ]] ; then
+		export PATH="${HOME}/bin:$PATH"
+	fi
+fi
+
 if [ -n "$(type -t column)" ] ; then
 	alias tcat='column -t'
 	function tless () {
