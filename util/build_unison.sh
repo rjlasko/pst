@@ -1,5 +1,5 @@
-#!/bin/sh
-set -ue
+#!/bin/bash
+set -xueo pipefail
 
 # This script will build the Unison File Synchronizer.
 # https://www.cis.upenn.edu/~bcpierce/unison/
