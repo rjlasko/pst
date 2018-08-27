@@ -12,9 +12,14 @@ if [ -d "${HOME}/bin" ] ; then
 fi
 
 if [ -n "$(type -t column)" ] ; then
-	alias tcat='column -t'
+	alias tcat="column -ts $'\t'"
 	function tless () {
-		column -t "$@" | less -S ;
+		column -ts $'\t' "$@" | less -S ;
+	}
+	
+	alias ccat="column -ts ,"
+	function cless () {
+		column -ts , "$@" | less -S ;
 	}
 fi
 
