@@ -28,7 +28,15 @@ alias pst_debug='export PST_DEBUG=1'
 if [ -z "$PST_INHERITED_PATH" ]; then
 	export PST_INHERITED_PATH=$PATH
 fi 
-	
+
+# adds the user-specific bin directory, if it exists
+if [ -d "${HOME}/bin" ] ; then
+	# but only if it isn't already in the path
+	if [[ ! "$PATH" = *"${HOME}/bin"* ]] ; then
+		export PATH="${HOME}/bin:$PATH"
+	fi
+fi
+
 # if we desire to reinitialize bash, we can do it here scratching the path
 function rebash() {
 	export PATH=$PST_INHERITED_PATH
