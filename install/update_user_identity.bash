@@ -62,7 +62,7 @@ if [ -n ${TARGET_USER_ID:-} ] ; then
 	USER_CMD="${USER_CMD} --uid ${TARGET_USER_ID}"
 fi
 if [ -n ${TARGET_GROUP_NAME:-} ] ; then
-	USER_CMD="${USER_CMD} --group ${TARGET_GROUP_NAME}"
+	USER_CMD="${USER_CMD} --gid ${TARGET_GROUP_ID}"
 fi
 if [ -n ${TARGET_USER_ID:-} ] || [ -n ${TARGET_GROUP_NAME:-} ] ; then
 	eval "${USER_CMD} ${TARGET_USER_NAME}"
