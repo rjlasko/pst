@@ -68,4 +68,8 @@ fi
 ################################
 apt-get -y install zfs-auto-snapshot
 
+echo -e "\nZFS module info:"
+modinfo zfs | grep -v parm
+
+echo -e "\nMounted ZFS volumes:"
 zfs list
