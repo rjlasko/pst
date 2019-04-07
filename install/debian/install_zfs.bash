@@ -12,7 +12,7 @@ echo -e "\n${USER}@$(hostname) running: ${SCRIPT_ROOT}/${SCRIPT_NAME} $@"
 # https://github.com/zfsonlinux/zfs/wiki/Debian
 
 # optional argument to attempt to import a zPool of the given name
-ZPOOL_NAME=${1:-}}
+ZPOOL_NAME=${1:-}
 
 
 # temporarily allow errors to detect if zfs has already been installed
