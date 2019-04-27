@@ -79,6 +79,27 @@ case "$PST_OS" in
 	
 	"linux")
 		
+		function lsos () {
+			printf "\n\nListing of CPU:\n"
+			lscpu
+			printf "\n\nListing of all PCI devices:\n"
+			lspci
+			printf "\n\nListing of all USB devices:\n"
+			lsusb
+			printf "\n\nListing of all block storage devices:\n"
+			lsblk
+			printf "\n\nListing of all installed Linux modules:\n"
+			lsmod
+			printf "\n\nStatus of all installed services:\n"
+			service --status-all
+			printf "\n\nListing of all mounted filesystems:\n"
+			df -h
+			printf "\n\nOS Installation information"
+			cat /etc/os-release
+			printf "\n\nListing of all network connections:\n"
+			ip addr
+		}
+
 		function switchLink() {
 			if [ "$#" -ne 2 ] ; then
 				echo "ERROR: This script expects 1 argument, with syntax:" 1>&2
