@@ -4,14 +4,14 @@
 pst_debug_echo "$BASH_SOURCE"
 
 if [ -n "$(type -t docker)" ] ; then
-	docker ps -a
+	docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.CreatedAt}}\t{{.Status}}"
 else
 	echo "It appears that the docker executable 'docker' is not in the path!"
 	return
 fi
 
+alias dkrps='docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.CreatedAt}}\t{{.Status}}"'
 alias dkri="docker images -a"
-alias dkrps='docker ps -a'
 alias dkrv='docker volume ls'
 alias dkrnt='docker network ls'
 
