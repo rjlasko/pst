@@ -104,16 +104,3 @@ if [ -n "$(type -t grep)" ] && [ -n "$(type -t sed)" ] && [ -n "$(type -t tr)" ]
 	unset _GREP_TYPE
 fi
 
-
-
-
-# !!!!!!!!!!!!!!!!!!!! File/Directory Cleanup
-# text editor artifacts
-alias find~="find . -type f -name '*~' -ls"
-alias cleanup~="find . -type f -name '*~' -ls -delete"
-# OSX artifacts
-alias findDS="find . -type f -name '.DS_Store' -ls"
-alias cleanupDS="find . -type f -name '.DS_Store' -ls -delete"
-# Windows artifacts
-alias findThumbs="find . -type f -name 'Thumbs.db' -ls"
-alias cleanupThumbs="find . -type f -name 'Thumbs.db' -ls -delete"
