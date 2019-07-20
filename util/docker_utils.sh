@@ -4,6 +4,7 @@
 pst_debug_echo "$BASH_SOURCE"
 
 if [ -n "$(type -t docker)" ] ; then
+	echo "<<<<<<<<<< Docker Container Status >>>>>>>>>>"
 	docker ps --all --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.CreatedAt}}\t{{.Status}}"
 else
 	echo "It appears that the docker executable 'docker' is not in the path!"
