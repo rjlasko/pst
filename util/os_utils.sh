@@ -63,7 +63,7 @@ case "$PST_OS" in
 				local ssh_host="$3"
 				local remote_path="$4"
 				local local_path="$5"
-				sshfs -p 22 -o noappledouble -o volname="$osx_volume_name" "${ssh_user}@${ssh_host}:${remote_path}" "${local_path}"
+				sshfs -p 22 -o ro -o noappledouble -o volname="$osx_volume_name" "${ssh_user}@${ssh_host}:${remote_path}" "${local_path}"
 			}
 		fi
 		
