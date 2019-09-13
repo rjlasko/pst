@@ -61,11 +61,11 @@ function dkrNukeVolumes() {
 
 function dkrNukeAll() {
 	(
-		echo "- Containers..."
-		dkrNukeContainers
-		echo "- Images..."
-		dkrNukeImages
-		echo "- Volumes..."
+		echo "- Stopping Containers..."
+		for ctr in $(docker ps -a -q) ; do
+			docker stop "$ctr"
+		done
+		docker system prune -a
 		dkrNukeVolumes
 	)
 }
@@ -83,23 +83,20 @@ function dkrCleanImages() {
 }
 
 function dkrCleanVolumes() {
-	for vol in $(docker volume ls -q -f dangling=true) ; do
-		docker volume rm "$vol"
-	done
+#	for vol in $(docker volume ls -q -f dangling=true) ; do
+#		docker volume rm "$vol"
+#	done
+	docker volume prune
 }
 
 function dkrCleanAll() {
-	echo "- Containers..."
-	dkrCleanContainers	
-	echo "- Images..."
-	dkrCleanImages
-	echo "- Volumes..."
-	dkrCleanVolumes
+	docker system prune
+	docker volume prune
 }
 
 function dkrBuildTest() {
 	(
-		set -x
+		set -xe
 		
 		# default build context is current directory
 		BUILD_CTX="${BUILD_CTX:-${1:-.}}"
@@ -203,5 +200,5 @@ if [ "$(uname)" == "Darwin" ] ; then
 		sudo rm -rf /Library/LaunchDaemons/com.docker.vmnetd.plist
 	}
 	
-	alias dkrtty='screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty'
+	alias dkrTTY='screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty'
 fi
