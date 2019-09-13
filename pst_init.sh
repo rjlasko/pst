@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
 # This script is the initialization point for Posix Shell Tools (PST).
 # call this function to setup key environmental variables
 # necessary to support running PST scripts.
