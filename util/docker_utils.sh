@@ -6,6 +6,7 @@ pst_debug_echo "$BASH_SOURCE"
 if [ -n "$(type -t docker)" ] ; then
 	echo "<<<<<<<<<< Docker Container Status >>>>>>>>>>"
 	docker ps --all --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.CreatedAt}}\t{{.Status}}"
+	echo
 else
 	echo "It appears that the docker executable 'docker' is not in the path!"
 	return
@@ -65,7 +66,7 @@ function dkrNukeAll() {
 		for ctr in $(docker ps -a -q) ; do
 			docker stop "$ctr"
 		done
-		docker system prune -a
+		docker system prune --all --force
 		dkrNukeVolumes
 	)
 }
@@ -86,12 +87,12 @@ function dkrCleanVolumes() {
 #	for vol in $(docker volume ls -q -f dangling=true) ; do
 #		docker volume rm "$vol"
 #	done
-	docker volume prune
+	docker volume prune --force
 }
 
 function dkrCleanAll() {
-	docker system prune
-	docker volume prune
+	docker system prune --force
+	docker volume prune --force
 }
 
 function dkrBuildTest() {
