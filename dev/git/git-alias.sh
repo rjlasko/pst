@@ -16,6 +16,7 @@ if $(type __git_complete 2>/dev/null) ; then
 	__git_complete gitga _git_log
 	__git_complete gitgas _git_log
 	__git_complete gitl _git_log
+	__git_complete gitld _git_log
 	__git_complete gitmrg _git_merge
 	__git_complete gitmrgsafe _git_merge
 	__git_complete gitp _git_pull
@@ -31,6 +32,7 @@ alias gitg='git log --graph --oneline --decorate'
 alias gitga='git log --graph --oneline --decorate --all'
 alias gitgas='git log --graph --oneline --decorate --all --simplify-by-decoration'
 alias gitl="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias gitld='git log -p --'
 alias gitmast='git checkout master'
 alias gitmastf='git checkout -f master'
 alias gitmrg='git merge --no-commit'
@@ -58,7 +60,7 @@ function gitsubfetch() {
 	for i in $(ls) ; do
 		if [ -d ./$i/.git ] ; then
 			pushd $i >/dev/null
-			
+
 			while read -r line ; do
 				repo=$(echo $line | cut -d ' ' -f 1)
 				echo "$i - $repo"
