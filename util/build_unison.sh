@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -xueo pipefail
 
 # This script will build the Unison File Synchronizer.
@@ -45,7 +45,7 @@ fi
 
 # Unison
 UNISON_EXTRACT_DIR="${WORK_SRC}/unison"
-mkdir -p ${UNISON_EXTRACT_DIR} 
+mkdir -p ${UNISON_EXTRACT_DIR}
 # as of 2.48.4
 UNISON_SRC_DIR="${UNISON_EXTRACT_DIR}/src"
 curl -L http://www.seas.upenn.edu/~bcpierce/unison/download/releases/unison-${UNISON_VERSION}/unison-${UNISON_VERSION}.tar.gz | tar zx -C ${UNISON_EXTRACT_DIR}

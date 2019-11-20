@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 
 pst_debug_echo "$BASH_SOURCE"

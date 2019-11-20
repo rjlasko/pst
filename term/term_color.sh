@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 # #############################################################################
 # this file is effectively a function for returning terminal color codes
@@ -9,7 +9,7 @@
 # see: http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/nonprintingchars.html
 # see: http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/bash-prompt-escape-sequences.html
 
-# \x1B = \033 = <the escape character> = \e (sometimes) 
+# \x1B = \033 = <the escape character> = \e (sometimes)
 # \033 tends to be the most robust and commonly understood
 # #############################################################################
 
@@ -105,4 +105,3 @@ preferTput() {
 		fi
 	fi
 }
-

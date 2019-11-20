@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 set -e
 
 if [ -n "$(type -t vim)" ] ; then

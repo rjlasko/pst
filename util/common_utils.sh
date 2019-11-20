@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 
 pst_debug_echo "$BASH_SOURCE"
@@ -8,7 +8,7 @@ if [ -n "$(type -t column)" ] ; then
 	function tless () {
 		column -ts $'\t' "$@" | less -S ;
 	}
-	
+
 	alias ccat="column -ts ,"
 	function cless () {
 		column -ts , "$@" | less -S ;
@@ -35,7 +35,7 @@ if [ -n "$(type -t ifconfig)" ] ; then
 	alias myip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
 
 	if [ -n "$(type -t nmap)" ] ; then
-		
+
 		function lanmacs () {
 			local myips=`myip`
 			for ip in $myips ; do
@@ -47,7 +47,7 @@ if [ -n "$(type -t ifconfig)" ] ; then
 				sudo nmap -sP $seg
 			done
 		}
-		
+
 		function scanip() {
 			sudo nmap -sP $1
 		}
@@ -72,12 +72,12 @@ if [ -n "$(type -t grep)" ] && [ -n "$(type -t sed)" ] && [ -n "$(type -t tr)" ]
 
 	# find out if we have a GNU or BSD grep
 	_GREP_TYPE=$(grep --version | head -n1 | tr '[A-Z]' '[a-z]')
-	
+
 	case $_GREP_TYPE in
 		*"gnu grep"*)
 			function numPtreeFiles() {
 				#(lsof -p `pstree -p $1 | grep -o "[0-9]*" | tr '\n' ','` 2>/dev/null) | awk '{print $2}' | tail -n +2 | uniq -c
-				
+
 				while true
 				do
 					(lsof -p `pstree -p $1 | grep -o "[0-9]*" | tr '\n' ','` 2>/dev/null) | awk '{print $2}' | tail -n +2 | uniq -c
@@ -103,4 +103,3 @@ if [ -n "$(type -t grep)" ] && [ -n "$(type -t sed)" ] && [ -n "$(type -t tr)" ]
 	esac
 	unset _GREP_TYPE
 fi
-

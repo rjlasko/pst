@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 
 pst_debug_echo "$BASH_SOURCE"
@@ -33,4 +33,3 @@ case "$PST_OS" in
 		fi
 		;;
 esac
-

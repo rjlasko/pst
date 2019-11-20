@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 
 # Various variables you might want for your PS1 prompt
