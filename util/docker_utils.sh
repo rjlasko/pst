@@ -7,7 +7,6 @@ if [ -z "$(type -t docker)" ] ; then
 	echo "It appears that the executable 'docker' is not in the path!"
 	return
 fi
-
 echo "<<<<<<<<<< Docker Container Status >>>>>>>>>>"
 docker ps --all --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.CreatedAt}}\t{{.Status}}"
 echo
