@@ -3,15 +3,17 @@
 
 pst_debug_echo "$BASH_SOURCE"
 
-if [ -n "$(type -t virsh)" ] ; then
-	echo "<<<<<<<<<< Virtual Machine Status >>>>>>>>>>"
-	export LIBVIRT_DEFAULT_URI='qemu:///system'
-	virsh list --all
-else
+if [ -z "$(type -t virsh)" ] ; then
 	echo "It appears that the libvirt executable 'virsh' is not in the path!"
 	return
 fi
 
+echo "<<<<<<<<<< Virtual Machine Status >>>>>>>>>>"
+export LIBVIRT_DEFAULT_URI='qemu:///system'
+virsh list --all
+
+
+# begin aliases and functions
 alias vmls="virsh list"
 alias vmstart="virsh start"
 alias vmdown="virsh shutdown"

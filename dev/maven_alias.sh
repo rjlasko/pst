@@ -4,10 +4,12 @@
 pst_debug_echo "$BASH_SOURCE"
 
 if [ -z "$(type -t mvn)" ] ; then
-	echo "It appears that the Maven executable 'mvn' is not in the path!"
+	echo "It appears that the executable 'mvn' is not in the path!"
 	return
 fi
 
+
+# begin aliases and functions
 alias mvntest_debug='mvn test -Dmaven.surefire.debug'
 alias mvninstall='mvn clean install'
 alias mvninstallquick='mvn clean install -DskipTests'

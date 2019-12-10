@@ -3,15 +3,17 @@
 
 pst_debug_echo "$BASH_SOURCE"
 
-if [ -n "$(type -t docker)" ] ; then
-	echo "<<<<<<<<<< Docker Container Status >>>>>>>>>>"
-	docker ps --all --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.CreatedAt}}\t{{.Status}}"
-	echo
-else
-	echo "It appears that the docker executable 'docker' is not in the path!"
+if [ -z "$(type -t docker)" ] ; then
+	echo "It appears that the executable 'docker' is not in the path!"
 	return
 fi
 
+echo "<<<<<<<<<< Docker Container Status >>>>>>>>>>"
+docker ps --all --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.CreatedAt}}\t{{.Status}}"
+echo
+
+
+# begin aliases and functions
 alias dkrps='docker ps --all --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.CreatedAt}}\t{{.Status}}"'
 alias dkri="docker images -a"
 alias dkrv='docker volume ls'
@@ -98,16 +100,16 @@ function dkrCleanAll() {
 function dkrBuildTest() {
 	(
 		set -xe
-		
+
 		# default build context is current directory
 		BUILD_CTX="${BUILD_CTX:-${1:-.}}"
-		
+
 		# default image name is 'test'
 		local defaultImageName="test_image_${PWD##*/}"
 		export IMAGE_NAME="${IMAGE_NAME:-${2:-$defaultImageName}}"
-		
+
 		export EXEC_CMD="${EXEC_CMD:-${3:-/bin/sh}}"
-		
+
 		docker build --tag "$IMAGE_NAME" --force-rm "$BUILD_CTX"
 		dkrRunImageIT
 	)
@@ -137,20 +139,20 @@ function dkrRunImage() {
 		# turn off errors while attempting to nuke container
 		set +e
 		dkrNukeContainer "$name"
-	
+
 		(
 			set -ex
-			
+
 			if [ "$(uname)" == "Linux" ] ; then
 				DKR_CMD_OPTS="$DKR_CMD_OPTS \
 					-v /etc/localtime:/etc/localtime \
 					--device /dev/net/tun"
 			fi
-			
+
 #			DKR_CMD_OPTS="$DKR_CMD_OPTS \
 #				-p 31415:31415 \
 #				--cap-add=NET_ADMIN"
-			
+
 			docker run \
 				$DKR_CMD_OPTS \
 				--name "$name" \
@@ -167,27 +169,27 @@ function dkrStartContainer() {
 		# turn off errors while attempting to nuke container
 		set +e
 		dkrNukeContainer "$name"
-		
+
 		(
 			set -ex
-			
+
 			if [ "$(uname)" == "Linux" ] ; then
 				DKR_CMD_OPTS="$DKR_CMD_OPTS \
 					-v /etc/localtime:/etc/localtime \
 					--device /dev/net/tun"
 			fi
-			
+
 			DKR_CMD_OPTS="$DKR_CMD_OPTS \
 				-p 31415:31415 \
 				--cap-add=NET_ADMIN"
-			
+
 			docker create \
 				$DKR_CMD_OPTS \
 				--name "$name" \
 				"$IMAGE_NAME"
-			
+
 			docker start "$name"
-			
+
 			docker logs -f "$name"
 		)
 	)
@@ -200,6 +202,6 @@ if [ "$(uname)" == "Darwin" ] ; then
 		sudo rm -rf /Library/PrivilegedHelperTools/com.docker.vmnetd
 		sudo rm -rf /Library/LaunchDaemons/com.docker.vmnetd.plist
 	}
-	
+
 	alias dkrTTY='screen ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty'
 fi

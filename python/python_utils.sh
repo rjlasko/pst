@@ -4,10 +4,12 @@
 pst_debug_echo "$BASH_SOURCE"
 
 if [ -z "$(type -t python)" ] ; then
-	echo "It appears that the Python executable 'python' is not in the path!"
+	echo "It appears that the executable 'python' is not in the path!"
 	return
 fi
 
+
+# begin aliases and functions
 alias pst_pythonpath="PYTHONPATH=$PST_ROOT/python:$PST_ROOT/python/pylib:$PST_ROOT/python/bin:$PYTHONPATH"
 alias pst_python="pst_pythonpath python"
 alias pst_python_sudo='sudo pst_python'

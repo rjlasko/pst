@@ -4,10 +4,12 @@
 pst_debug_echo "$BASH_SOURCE"
 
 if [ -z "$(type -t git)" ] ; then
-	echo "It appears that the Git executable 'git' is not in the path!"
+	echo "It appears that the executable 'git' is not in the path!"
 	return
 fi
 
+
+# begin aliases and functions
 if $(type __git_complete 2>/dev/null) ; then
 	# git-completion is in effect, so lets use it
 	__git_complete gitco _git_checkout
