@@ -8,7 +8,7 @@ if [ -z "$(type -t vagrant)" ] ; then
 	return
 fi
 export VAGRANT_HOME="/zDisk/vm/vagrant"
-echo "<<<<<<<<<< Docker Container Status >>>>>>>>>>"
+echo "<<<<<<<<<< Vagrant Environment Status >>>>>>>>>>"
 vagrant global-status
 echo
 
