@@ -7,7 +7,6 @@ if [ -z "$(type -t virsh)" ] ; then
 	echo "It appears that the libvirt executable 'virsh' is not in the path!"
 	return
 fi
-export LIBVIRT_DEFAULT_URI='qemu:///system'
 echo "<<<<<<<<<< Virtual Machine Status >>>>>>>>>>"
 virsh list --all
 

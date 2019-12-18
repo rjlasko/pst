@@ -7,7 +7,6 @@ if [ -z "$(type -t vagrant)" ] ; then
 	echo "It appears that the executable 'vagrant' is not in the path!"
 	return
 fi
-export VAGRANT_HOME="/zDisk/vm/vagrant"
 echo "<<<<<<<<<< Vagrant Environment Status >>>>>>>>>>"
 vagrant global-status
 echo
@@ -17,6 +16,7 @@ echo
 # vagrant global-status --prune
 # vagrant destroy <hash>
 
+# sudo systemctl restart libvirtd
 
 # TODO: i found that after destroying a Vagrant VM, there was an ISO left over
 # in the libvirt directory.  Need to consider what to do with this file, as it
