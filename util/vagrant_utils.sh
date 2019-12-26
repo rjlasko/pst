@@ -11,12 +11,16 @@ echo "<<<<<<<<<< Vagrant Environment Status >>>>>>>>>>"
 vagrant global-status
 echo
 
-# begin aliases and functions
-# XXX: interesting commands...
-# vagrant global-status --prune
-# vagrant destroy <hash>
 
-# sudo systemctl restart libvirtd
+# begin aliases and functions
+alias vgrNukeImages='vagrant box list | cut -f 1 -d ' ' | xargs -L 1 vagrant box remove -f'
+alias vgrPrune='vagrant global-status --prune'
+alias vgrRestart='sudo systemctl restart libvirtd'
+alias vgrBoxes='vagrant box list -i'
+
+# XXX: interesting commands...
+# vagrant destroy <hash>
+# sudo qemu-img info vagrant_furnace.img
 
 # TODO: i found that after destroying a Vagrant VM, there was an ISO left over
 # in the libvirt directory.  Need to consider what to do with this file, as it
