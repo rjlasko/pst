@@ -13,6 +13,7 @@ fi
 if $(type __git_complete 2>/dev/null) ; then
 	# git-completion is in effect, so lets use it
 	__git_complete gitco _git_checkout
+	__git_complete gitcb _git_checkout
 	__git_complete gitd _git_diff
 	__git_complete gitg _git_log
 	__git_complete gitga _git_log
@@ -23,27 +24,32 @@ if $(type __git_complete 2>/dev/null) ; then
 	__git_complete gitmrgsafe _git_merge
 	__git_complete gitp _git_pull
 	__git_complete gitr _git_remote
+	__git_complete gitf _git_fetch
 fi
 
 # but we still need the aliases, because completion is not enough
-alias gitb='git branch'
-alias gitba='git branch -a'
 alias gitco='git checkout'
+alias gitcb='git checkout -b'
 alias gitd='git diff'
 alias gitg='git log --graph --oneline --decorate'
 alias gitga='git log --graph --oneline --decorate --all'
 alias gitgas='git log --graph --oneline --decorate --all --simplify-by-decoration'
 alias gitl="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias gitld='git log -p --'
-alias gitmast='git checkout master'
-alias gitmastf='git checkout -f master'
 alias gitmrg='git merge --no-commit'
 alias gitmrgsafe='git merge --no-commit --no-ff'
 alias gitp='git pull'
 alias gitr='git remote -v'
+alias gitf='git fetch --prune'
+# Aliases without auto-complete
+alias gitb='git branch'
+alias gitba='git branch -a'
+alias gitmast='git checkout master'
+alias gitmastf='git checkout -f master'
 alias gitst='git status'
 alias gitwipe='git clean -dxf'
 alias gitunmerged='git branch --no-merged && git branch -r --no-merged'
+
 
 #alias gitpull='git pull --rebase'
 #alias gitrpull='git pull --rebase --recurse-submodules'
