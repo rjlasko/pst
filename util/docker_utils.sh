@@ -18,7 +18,7 @@ alias dkri="docker images -a"
 alias dkrv='docker volume ls'
 alias dkrnt='docker network ls'
 
-# useful docker daemon (dockerd) commands
+# daemon (dockerd) commands
 alias dkrdrestart='sudo service docker restart'
 alias dkrdlog='sudo journalctl -fu docker.service'
 alias dkrdlogf='journalctl -fu docker _TRANSPORT=stdout + OBJECT_EXE=docker'

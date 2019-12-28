@@ -13,10 +13,10 @@ echo
 
 
 # begin aliases and functions
-alias vgrNukeImages="vagrant box list | cut -f 1 -d ' ' | xargs -L 1 vagrant box remove -f"
-alias vgrPrune='vagrant global-status --prune'
-alias vgrRestart='sudo systemctl restart libvirtd'
-alias vgrBoxes='vagrant box list -i'
+alias vgprune='vagrant global-status --prune'
+alias vgb='vagrant box list -i'
+
+alias vgNukeImages="vagrant box list | cut -f 1 -d ' ' | xargs -L 1 vagrant box remove -f"
 
 # XXX: interesting commands...
 # vagrant destroy <hash>
