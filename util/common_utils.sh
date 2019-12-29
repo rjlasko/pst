@@ -3,6 +3,34 @@
 
 pst_debug_echo "$BASH_SOURCE"
 
+function fileHistogram() {
+	echo "upper limit: # files between this and prior limit"
+	sudo find . -type f -not -path "*/.zfs/*" -not -path "*/.recycle/*" -print0 \
+		| xargs -0 sudo ls -l													\
+		| awk '{																\
+				n=int(log($5)/log(2));											\
+				if (n<10) n=10;													\
+				size[n]++														\
+			}																	\
+			END {																\
+				for (i in size) printf("%d %d\n", 2^i, size[i])					\
+			}'																	\
+		| sort -n																\
+		| awk 'function human(x) {												\
+				x[1]/=1024;														\
+				if (x[1]>=1024) {												\
+					x[2]++;														\
+					human(x)													\
+				}																\
+			}																	\
+			{																	\
+				a[1]=$1;														\
+				a[2]=0;															\
+				human(a);														\
+				printf("%3d%s: %6d\n", a[1],substr("KMGTPEZY",a[2]+1,1),$2) }'
+}
+
+
 if [ -n "$(type -t column)" ] ; then
 	alias tcat="column -ts $'\t'"
 	function tless () {

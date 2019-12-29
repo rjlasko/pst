@@ -20,7 +20,6 @@ alias vgNukeImages="vagrant box list | cut -f 1 -d ' ' | xargs -L 1 vagrant box 
 
 # XXX: interesting commands...
 # vagrant destroy <hash>
-# sudo qemu-img info vagrant_furnace.img
 
 # TODO: i found that after destroying a Vagrant VM, there was an ISO left over
 # in the libvirt directory.  Need to consider what to do with this file, as it
