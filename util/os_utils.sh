@@ -100,6 +100,14 @@ case "$PST_OS" in
 			ip addr
 		}
 
+		function lsiommu() {
+			for d in /sys/kernel/iommu_groups/*/devices/*; do
+			  n=${d#*/iommu_groups/*}; n=${n%%/*}
+			  printf 'IOMMU Group %s ' "$n"
+			  lspci -nns "${d##*/}"
+			done
+		}
+
 		function switchLink() {
 			if [ "$#" -ne 2 ] ; then
 				echo "ERROR: This script expects 1 argument, with syntax:" 1>&2
