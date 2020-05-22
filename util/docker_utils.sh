@@ -142,16 +142,6 @@ function dkrRunImage() {
 		(
 			set -ex
 
-			if [ "$(uname)" == "Linux" ] ; then
-				DKR_CMD_OPTS="$DKR_CMD_OPTS \
-					-v /etc/localtime:/etc/localtime \
-					--device /dev/net/tun"
-			fi
-
-#			DKR_CMD_OPTS="$DKR_CMD_OPTS \
-#				-p 31415:31415 \
-#				--cap-add=NET_ADMIN"
-
 			docker run \
 				$DKR_CMD_OPTS \
 				--name "$name" \
@@ -171,16 +161,6 @@ function dkrStartContainer() {
 
 		(
 			set -ex
-
-			if [ "$(uname)" == "Linux" ] ; then
-				DKR_CMD_OPTS="$DKR_CMD_OPTS \
-					-v /etc/localtime:/etc/localtime \
-					--device /dev/net/tun"
-			fi
-
-			DKR_CMD_OPTS="$DKR_CMD_OPTS \
-				-p 31415:31415 \
-				--cap-add=NET_ADMIN"
 
 			docker create \
 				$DKR_CMD_OPTS \
