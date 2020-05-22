@@ -67,6 +67,14 @@ case "$PST_OS" in
 			}
 		fi
 
+		if [ -n "$(type -t goofys)" ] ; then
+			function mounts3() {
+				local bucket_name="$1"
+				local local_path="$2"
+				goofys -o ro -o allow-other "$bucket_name" "$local_path"
+			}
+		fi
+
 		# I could add to the existing OS the components called out below:
 			# lesspipe
 			# bash_completion
