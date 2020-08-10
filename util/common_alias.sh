@@ -35,7 +35,7 @@ alias cla='clear; la'
 alias cll='clear; ll'
 alias cls='clear; ls'
 alias clal='clear; lal'
-alias df='df -h'
+alias df='df | head -n1 && df -h | tail -n+2 | sort'
 alias du='du -h'
 alias du.='du -h -d 1'
 
