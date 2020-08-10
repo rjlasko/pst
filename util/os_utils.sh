@@ -75,6 +75,10 @@ case "$PST_OS" in
 			}
 		fi
 
+		if [ -n "$(type -t tmutil)" ] ; then
+			alias tmThinLocalSnaps="tmutil thinlocalsnapshots / $(echo "10 * 1000000000" | bc) 2"
+		fi
+
 		# I could add to the existing OS the components called out below:
 			# lesspipe
 			# bash_completion
